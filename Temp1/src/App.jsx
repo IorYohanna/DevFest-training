@@ -12,8 +12,9 @@ const App = () => {
   return (
     <main className="relative min-h-screen w-screen overflow-hidden">
       <NavBar/>
-      <Hero/>
       <Section/>
+      <Hero/>
+
       <Features/>
       <Story/>
       <Contact/>
