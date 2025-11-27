@@ -15,50 +15,60 @@ body {
   @font-face {
     font-family: "circular-web";
     src: url("/fonts/circularweb-book.woff2") format("woff2");
+    font-display: swap;
   }
 
   @font-face {
     font-family: "general";
     src: url("/fonts/general.woff2") format("woff2");
+    font-display: swap;
   }
 
   @font-face {
     font-family: "robert-medium";
     src: url("/fonts/robert-medium.woff2") format("woff2");
+    font-display: swap;
   }
 
   @font-face {
     font-family: "robert-regular";
     src: url("/fonts/robert-regular.woff2") format("woff2");
+    font-display: swap;
   }
 
   @font-face {
     font-family: "zentry";
     src: url("/fonts/zentry-regular.woff2") format("woff2");
+    font-display: swap;
   }
 
   @font-face {
     font-family: "vogue";
     src: url("/fonts/vogue.ttf") format("truetype");
+    font-display: swap;
   }
 
   @font-face {
     font-family: "newyork";
     src: url("/fonts/newyork.otf") format("opentype");
+    font-display: swap;
   }
 
   @font-face {
     font-family: "classyvogue";
     src: url("/fonts/classyvogue.ttf") format("truetype");
+    font-display: swap;
   }
   @font-face {
     font-family: "sagita";
     src: url("/fonts/sagita.ttf") format("truetype");
+    font-display: swap;
   }
 
   @font-face {
     font-family: "lamoric";
     src: url("/fonts/lamoric.ttf") format("truetype");
+    font-display: swap;
   }
 }
 
@@ -114,7 +124,7 @@ body {
   }
 
   .floating-nav {
-    @apply bg-black rounded-lg border;
+    @apply bg-transparent;
   }
 
   .absolute-center {
@@ -140,10 +150,10 @@ body {
   }
 
   .nav-name-up {
-    @apply uppercase font-lamoric text-4xl tracking-normal;
+    @apply uppercase font-lamoric text-6xl tracking-normal;
   }
   .nav-name-down {
-    @apply uppercase font-robert-medium font-bold text-3xl tracking-wider;
+    @apply uppercase font-robert-medium font-bold text-5xl tracking-wider;
   }
 
   .about-subtext {
@@ -151,7 +161,7 @@ body {
   }
 
   .about-image {
-    @apply relative w-auto h-full md:w-full overflow-hidden rounded-3xl;
+    @apply relative h-full w-full overflow-hidden rounded-3xl;
     /* @apply absolute left-1/2 top-0 z-20 h-[60vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-3xl md:w-[30vw]; */
   }
 
