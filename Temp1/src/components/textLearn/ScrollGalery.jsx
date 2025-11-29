@@ -34,7 +34,7 @@ const contentData = [
     },
 ];
 
-const ScrollGallery = () => {
+const ScrollGalery = () => {
     const containerRef = useRef(null);
     const visualRef = useRef(null);
     const visualWrapperRef = useRef(null);
@@ -291,4 +291,4 @@ const ScrollGallery = () => {
     );
 };
 
-export default ScrollGallery;
+export default ScrollGalery;
