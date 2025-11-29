@@ -13,7 +13,7 @@ import { Menu } from 'lucide-react'
 import Test from './components/Test'
 import ScrollGalery from './components/textLearn/ScrollGalery'
 import TextGlitch from './assets/TextGlitch'
-
+import Map from './components/Map'
 
 const App = () => {
   return (
@@ -26,7 +26,7 @@ const App = () => {
       <Test/>
       <TextGlitch/>
       <ScrollGalery/>
-  
+      <Map/>
       <SectionHorizontal/>
       <Footer/>
     </main>
