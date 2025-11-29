@@ -14,10 +14,13 @@
     "@studio-freight/react-lenis": "^0.0.47",
     "@iconify/react": "^6.0.2",
     "gsap": "^3.13.0",
+    "leaflet": "^1.9.4",
+    "leaflet-routing-machine": "^3.2.12",
     "lucide-react": "^0.555.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.4.0",
     "react-use": "^17.6.0"
   },
