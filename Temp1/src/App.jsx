@@ -23,8 +23,8 @@ const App = () => {
       <Story/>
       <Contact/>
       <Test/>
-      <SectionHorizontal/>
       <ScrollGalery/>
+      <SectionHorizontal/>
       <Footer/>
     </main>
      

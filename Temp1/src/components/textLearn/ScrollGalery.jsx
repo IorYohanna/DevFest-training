@@ -60,9 +60,9 @@ const ScrollGallery = () => {
                 ScrollTrigger.create({
                     trigger: containerRef.current,
                     start: "top top",
-                    end: "+=2000", 
                     pin: true, 
-                    scrub: 1, 
+                    scrub: 1,
+                    end: "+=" + contentData.length * 50,
                     
                     onUpdate: (self) => {
                         const step = Math.min(
