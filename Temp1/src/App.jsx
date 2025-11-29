@@ -11,7 +11,7 @@ import TextTicker from './components/TypeTicker'
 import ScrollingTextSection from './components/TypeTicker'
 import { Menu } from 'lucide-react'
 import Test from './components/Test'
-import ScrollGalery from './components/textLearn/ScrollJacking'
+import ScrollGalery from './components/textLearn/ScrollGalery'
 
 
 const App = () => {
@@ -23,8 +23,8 @@ const App = () => {
       <Story/>
       <Contact/>
       <Test/>
-      <ScrollGalery/>
       <SectionHorizontal/>
+      <ScrollGalery/>
       <Footer/>
     </main>
      
