@@ -1,0 +1,75 @@
+/* Reset basique */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #111;
+  color: #eaeaea;
+  font-family: 'Inter', sans-serif;
+}
+
+.spacer {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+h1 {
+  font-size: 4rem;
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+/* --- Style Galerie Cappen --- */
+
+.gallery-section {
+  position: relative;
+  padding: 10vh 0;
+  overflow: hidden; /* Masque ce qui sort du cadre durant le parallax */
+  background: #111;
+  z-index: 1;
+}
+
+.gallery-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 6vw; /* Espace large entre les colonnes */
+  width: 100%;
+  /* Hauteur arbitraire plus grande que le contenu pour laisser la place au mouvement */
+  min-height: 150vh; 
+}
+
+.column {
+  width: 35vw;
+  display: flex;
+  flex-direction: column;
+  gap: 8vh; /* Espace vertical entre les images */
+  will-change: transform; /* Optimisation performance navigateur */
+}
+
+/* Pour accentuer l'effet, on peut décaler le départ de la 2ème colonne via CSS */
+.slow-col {
+  margin-top: 15vh; 
+}
+
+.image-block {
+  width: 100%;
+  height: 65vh; /* Hauteur fixe pour l'uniformité */
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+}
+
+.image-block img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Petit effet hover premium */
+.image-block:hover img {
+  transform: scale(1.05);
+}
