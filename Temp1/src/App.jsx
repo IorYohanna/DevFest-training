@@ -11,17 +11,20 @@ import TextTicker from './components/TypeTicker'
 import ScrollingTextSection from './components/TypeTicker'
 import { Menu } from 'lucide-react'
 import Test from './components/Test'
+import ScrollGalery from './components/textLearn/ScrollJacking'
 
 
 const App = () => {
   return (
     <main className="relative min-h-screen w-screen overflow-hidden">
-      <NavBar/>
+      <Hero/>
       <Section/>
       <Features/>
       <Story/>
       <Contact/>
       <Test/>
+      <ScrollGalery/>
+      <SectionHorizontal/>
       <Footer/>
     </main>
      
