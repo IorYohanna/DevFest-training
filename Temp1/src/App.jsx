@@ -6,6 +6,8 @@ import Features from './components/Features'
 import Story from './components/Story'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import { Menu } from 'lucide-react'
+import Test from './components/Test'
 
 
 const App = () => {
@@ -17,6 +19,7 @@ const App = () => {
       <Features/>
       <Story/>
       <Contact/>
+      <Test/>
       <Footer/>
     </main>
      
