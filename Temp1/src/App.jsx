@@ -9,6 +9,8 @@ import SectionHorizontal from './components/SectionHorizontal'
 import Footer from './components/Footer'
 import TextTicker from './components/TypeTicker'
 import ScrollingTextSection from './components/TypeTicker'
+import { Menu } from 'lucide-react'
+import Test from './components/Test'
 
 
 const App = () => {
@@ -16,6 +18,11 @@ const App = () => {
     <main className="relative min-h-screen w-screen overflow-hidden">
       <NavBar/>
       <Section/>
+      <Features/>
+      <Story/>
+      <Contact/>
+      <Test/>
+      <Footer/>
     </main>
      
   )
