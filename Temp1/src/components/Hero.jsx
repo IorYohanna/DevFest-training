@@ -150,11 +150,11 @@ const Hero = () => {
                 <div className='absolute left-0 top-0 z-40 size-full'>
                     <div className='mt-24 px-5 sm:px-10'>
 
-                        <h1 className='special-font hero-heading text-blue-100'>
+                        <h1 className='font-vogue hero-heading text-blue-100'>
                             <b>O</b>utsiders
                         </h1>
 
-                        <p className='mb-5 max-w-64 font-robert-regular text-blue-100'>
+                        <p className='mb-5 max-w-64 font-classyvogue text-blue-100'>
                             Let us do the Game <br/> We'll bring some fun stuff
                         </p>
 
