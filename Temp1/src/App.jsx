@@ -5,6 +5,7 @@ import NavBar from './components/NavBar'
 import Features from './components/Features'
 import Story from './components/Story'
 import Contact from './components/Contact'
+import SectionHorizontal from './components/SectionHorizontal'
 import Footer from './components/Footer'
 
 
@@ -17,6 +18,7 @@ const App = () => {
       <Features/>
       <Story/>
       <Contact/>
+      <SectionHorizontal/>
       <Footer/>
     </main>
      
