@@ -7,6 +7,7 @@ import Story from './components/Story'
 import Contact from './components/Contact'
 import SectionHorizontal from './components/SectionHorizontal'
 import Footer from './components/Footer'
+import TextGlitch from './assets/TextGlitch'
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
       <Features/>
       <Story/>
       <Contact/>
+      <TextGlitch/>
       <SectionHorizontal/>
       <Footer/>
     </main>
