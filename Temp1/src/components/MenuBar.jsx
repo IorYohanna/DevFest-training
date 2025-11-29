@@ -16,7 +16,7 @@ const menuItems = [
   { label: "Connect", sub: "04", video: VIDEOS[3] },
 ];
 
-export default function Test() {
+export default function MenuBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 

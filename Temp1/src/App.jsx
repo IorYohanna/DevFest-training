@@ -9,25 +9,27 @@ import SectionHorizontal from './components/SectionHorizontal'
 import Footer from './components/Footer'
 import TextTicker from './components/TypeTicker'
 import ScrollingTextSection from './components/TypeTicker'
-import { Menu } from 'lucide-react'
-import Test from './components/Test'
 import ScrollGalery from './components/textLearn/ScrollJacking'
-
+import MenuBar from './components/MenuBar'
+import Cards from './components/Cards'
+import ParallaxGallery from './components/ParallaxGalery'
 
 const App = () => {
   return (
     <main className="relative min-h-screen w-screen overflow-hidden">
-      <Hero/>
-      <Section/>
-      <Features/>
-      <Story/>
-      <Contact/>
-      <Test/>
-      <ScrollGalery/>
-      <SectionHorizontal/>
-      <Footer/>
+      <Hero />
+      <ParallaxGallery/>
+      <Section />
+      <Features />
+      <Story />
+      <Contact />
+      <MenuBar />
+      <ScrollGalery />
+      <SectionHorizontal />
+      <Footer />
+
     </main>
-     
+
   )
 }
 
