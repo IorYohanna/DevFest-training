@@ -9,13 +9,11 @@ import SectionHorizontal from './components/SectionHorizontal'
 import Footer from './components/Footer'
 import TextTicker from './components/TypeTicker'
 import ScrollingTextSection from './components/TypeTicker'
-import ScrollGalery from './components/textLearn/ScrollJacking'
+import ScrollGallery from './components/textLearn/ScrollGallery'
 import MenuBar from './components/MenuBar'
 import Cards from './components/Cards'
 import ParallaxGallery from './components/ParallaxGalery'
 import { Menu } from 'lucide-react'
-import Test from './components/Test'
-import ScrollGalery from './components/textLearn/ScrollGalery'
 import TextGlitch from './assets/TextGlitch'
 import Map from './components/Map'
 
@@ -29,14 +27,12 @@ const App = () => {
       <Story />
       <Contact />
       <MenuBar />
-      <ScrollGalery />
+      <ScrollGallery />
       <SectionHorizontal />
-      <Test/>
       <TextGlitch/>
       <Map/>
       <Footer />
     </main>
-
   )
 }
 
