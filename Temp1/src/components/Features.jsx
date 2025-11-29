@@ -32,7 +32,6 @@ const BentoCard = ({src, title, description}) => {
   )
 }
 
-//tilt effect with mouse 
 const BentoTilt = ({children, className = ''}) => {
   const [transformStyle, settransformStyle] = useState('')
   const itemRef = useRef(null)
@@ -40,10 +39,9 @@ const BentoTilt = ({children, className = ''}) => {
   const handleMouseMove = (e) => {
     if(!itemRef.current) return
 
-    //get the position of the ref of the itemRef
     const {left,top,width,height} = itemRef.current.getBoundingClientRect()
 
-    const relativeX = (e.clientX - left) / width //relative x position of our mouse
+    const relativeX = (e.clientX - left) / width 
     const relativeY = (e.clientY - top ) / height 
 
     const tiltX = (relativeY - 0.5) * 5
@@ -98,7 +96,6 @@ const Features = () => {
         </BentoTilt>
 
         <BentoTilt className="grid h-[135vh] grid-cols-2 grid-rows-3 gap-7"> 
-          {/*row-span-2 2 ligne et col-span-1 1colonne qd lq fenetre atteint md */}
           
           <bento className="bento-tilt_1 row-span-1 md:col-span-1 md:row-span-2">
             <BentoCard
