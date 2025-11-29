@@ -235,7 +235,6 @@ const ScrollGallery = () => {
 
                                         <h2 
                                             className={`
-                                                // 💡 TAILLE DU TITRE RÉDUITE : text-xl sur mobile, text-2xl/text-3xl sur desktop
                                                 text-xl md:text-2xl lg:text-3xl font-medium tracking-tight 
                                                 transition-colors duration-500
                                                 ${isOpacified ? "text-black" : "text-zinc-600"}
@@ -258,7 +257,6 @@ const ScrollGallery = () => {
                                 <div
                                     ref={addToRefs}
                                     className={`
-                                        // 💡 MARGE RÉDUITE : mt-3 sur mobile/desktop
                                         mt-3
                                         transition-all duration-700 ease-out
                                         ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}

@@ -26,7 +26,7 @@ const App = () => {
       <Test/>
       <TextGlitch/>
       <ScrollGalery/>
-    
+  
       <SectionHorizontal/>
       <Footer/>
     </main>
