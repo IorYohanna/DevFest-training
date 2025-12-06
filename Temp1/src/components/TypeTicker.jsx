@@ -3,7 +3,7 @@ import gsap from "gsap";
 
 const Row = ({ words, direction = "left", speed = 15, className = "" }) => {
   const rowRef = useRef(null);
-  const fontChoice = direction === "left" ? "font-transformers" : "font-bitsumis"
+  const fontChoice = direction === "left" ? "font-transformers text-gray-800 text-9xl" : "font-bitsumis"
 
   useEffect(() => {
     const container = rowRef.current;
@@ -29,7 +29,7 @@ const Row = ({ words, direction = "left", speed = 15, className = "" }) => {
   const content = [...words, ...words];
 
   return (
-    <div className="w-full overflow-hidden whitespace-nowrap">
+    <div className="w-full overflow-hidden whitespace-nowrap mb-10">
       
       <div ref={rowRef} className={`${className}`}>
         {content.map((word, index) => (

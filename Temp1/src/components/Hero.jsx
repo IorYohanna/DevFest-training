@@ -143,16 +143,21 @@ const Hero = () => {
 
                 </div>
 
-                <h1 className='special-font text-[6rem] font-transformers absolute bottom-5 text-end right-10 z-40 text-blue-50 leading-none'>
-                    <span className='block text-blue-50/30 drop-shadow-[0_0_40px_rgba(255,255,255,0.3)]'>
+                <h1 className='special-font text-[8rem] font-batman absolute top-[26%] text-end left-36 z-40 text-blue-50 leading-none'>
+                    
+                    <span className='block text-blue-100/90 font-light tracking-wide'>
                         SAFE AI
                     </span>
-                    <span className='block text-blue-100/30 font-light tracking-wide'>
+                </h1>
+
+                <h1 className='special-font text-[8rem] font-transformers absolute bottom-28 text-end right-20 z-40 text-blue-50 leading-none'>
+                    
+                    <span className='block text-blue-100/70 font-light tracking-wide'>
                         FOR MANKIND
                     </span>
                 </h1>
 
-                <div className='absolute font-batman left-8 top-24 z-40 max-w-xl md:left-16 md:top-32'>
+                {/* <div className='absolute font-transformers left-8 top-24 z-40 max-w-xl md:left-16 md:top-32'>
                     <div className='space-y-8'>
 
                         <h2 className='text-3xl md:text-4xl lg:text-5xl text-white leading-tight tracking-tight mt-32'>
@@ -176,7 +181,7 @@ const Hero = () => {
                             />
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
 
             <a

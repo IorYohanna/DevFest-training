@@ -56,7 +56,7 @@ const Section
                     <img
                     src="img/devfest.jpg"
                     alt="Background"
-                    className="absolute w-full object-cover top-[-40%]"
+                    className="absolute w-full object-cover top-[-50%]"
                     />
 
                     <div class="absolute top-2/4 left-2/3 transform -translate-x-1/2 -translate-y-1/2 text-center">

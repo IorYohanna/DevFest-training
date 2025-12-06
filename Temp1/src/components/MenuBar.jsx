@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { gsap } from 'gsap';
+import logo from '/img/outsiders/Outsiders.svg';
 
 const VIDEOS = [
   "/video/coffee-1.mp4",
@@ -72,8 +73,10 @@ export default function MenuBar() {
 
       <header className="fixed top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-50 mix-blend-exclusion text-white">
         <div className="text-xl tracking-tighter flex items-center gap-3">
-          <div className="w-3 h-3 bg-white rounded-full special-font"></div>
-          <h1 className='special-font font-vogue text-5xl'><b>OUTSIDERS</b></h1>
+          {/* <div className="w-3 h-3 bg-white rounded-full special-font"></div>
+          <h1 className='special-font font-vogue text-5xl'><b>OUTSIDERS</b></h1> */}
+          {/* <img src="./img/outsiders/Outsiders.svg" alt="logo" className="ml-10 w-36"/> */}
+          <img src={logo} alt="Logo" className="w-24 h-24 text-blue-500 hover:text-red-500 bg-white" />
         </div>
         <button
           onClick={() => setIsMenuOpen(v => !v)}
