@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ff1c750-c11d-4d5f-ade7-380652950fc6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/App/controllers/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/App/controllers/detoxify_controller.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/App/mainTp.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/App/routes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/App/schemas/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/App/schemas/requests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/App/schemas/responses.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/App/services/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/App/services/detoxify_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/App/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/App/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Temp1/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Temp1/src/App.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,16 +32,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Feature/Toxicity",
-    "last_opened_file_path": "D:/Pojet perso/Nouveau dossier/DevFest-training",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Feature/Toxicity&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Pojet perso/Nouveau dossier/DevFest-training&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="DevFest-training" />
