@@ -18,14 +18,15 @@ import Dashboard from './components/chat/Dashboard'
 import Section from './components/Section'
 import Detoxify from './components/detoxify/Detoxify'
 import Instagram from './components/instagram/Instagram'
+import Chatpage from "./Pages/Chat"
 
 const App = () => {
   return (
     <main className="relative min-h-screen w-screen overflow-hidden">
-      <Hero />
+      {/* <Hero />
       <Section />
       <SectionHorizontal />
-      <ParallaxGallery /> 
+      <ParallaxGallery />  */}
       {/* <Features />
       <Story />
       <Contact />
@@ -36,6 +37,7 @@ const App = () => {
 
       {/*       <Detoxify/>
       <Instagram/>           <FileAudit />*/}
+      <Chatpage/>
 
     </main>
   )
