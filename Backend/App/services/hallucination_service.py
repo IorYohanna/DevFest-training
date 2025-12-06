@@ -14,8 +14,8 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 class HallucinationDetector:
     def __init__(self):
         if not GROQ_API_KEY:
-            print("⚠️ GROQ_API_KEY manquante dans .env")
-            print("📝 Obtenez une clé gratuite sur: https://console.groq.com")
+            print("GROQ_API_KEY manquante dans .env")
+            print("Obtenez une clé gratuite sur: https://console.groq.com")
         
         self.groq_url = "https://api.groq.com/openai/v1/chat/completions"
         self.headers = {
@@ -24,11 +24,7 @@ class HallucinationDetector:
         }
         
         # Modèles disponibles (gratuits) - MISE À JOUR 2024
-        self.model = "llama-3.3-70b-versatile"  # ✅ Nouveau modèle (Décembre 2024)
-        # Alternatives actives :
-        # - "llama-3.1-8b-instant" (ultra rapide)
-        # - "mixtral-8x7b-32768" (excellent reasoning)
-        # - "gemma2-9b-it" (efficace)
+        self.model = "llama-3.3-70b-versatile"
         
         self.stats = {
             "total_analyses": 0,
