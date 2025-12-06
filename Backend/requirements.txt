@@ -1,21 +1,57 @@
-annotated-doc==0.0.4
-annotated-types==0.7.0
-anyio==4.11.0
-click==8.3.1
-detoxify
+# Backend/App/requirements.txt
+# Dépendances pour Safe AI API
+
+# ==========================================
+# CORE DEPENDENCIES (OBLIGATOIRES)
+# ==========================================
 fastapi==0.122.0
-h11==0.16.0
-httptools==0.7.1
-idna==3.11
+uvicorn[standard]==0.38.0
 pydantic==2.12.5
-pydantic_core==2.41.5
+httpx==0.26.0
 python-dotenv==1.2.1
-PyYAML==6.0.3
-sniffio==1.3.1
-starlette==0.50.0
-typing-inspection==0.4.2
-typing_extensions==4.15.0
-uvicorn==0.38.0
-uvloop==0.22.1
-watchfiles==1.1.1
-websockets==15.0.1
+
+# ==========================================
+# HALLUCINATION DETECTION (OBLIGATOIRE)
+# ==========================================
+# Pas de dépendances externes pour la version basique
+# Pour améliorer avec vraie IA (optionnel):
+# transformers>=4.36.0
+# torch>=2.1.0
+# huggingface-hub>=0.20.0
+
+# ==========================================
+# DETOXIFY SERVICE (OPTIONNEL)
+# ==========================================
+detoxify>=0.5.0
+
+# ==========================================
+# DATA PROCESSING (SI VOUS UTILISEZ CSV)
+# ==========================================
+pandas==2.1.4
+python-multipart==0.0.6
+
+# ==========================================
+# PRESIDIO ANONYMIZATION (OPTIONNEL)
+# ==========================================
+# presidio-analyzer>=2.2.0
+# presidio-anonymizer>=2.2.0
+# spacy>=3.7.0
+# Pour installer spacy: python -m spacy download en_core_web_lg
+
+# ==========================================
+# DÉPENDANCES DÉJÀ INSTALLÉES
+# ==========================================
+# annotated-types==0.7.0
+# anyio==4.11.0
+# click==8.3.1
+# h11==0.16.0
+# httptools==0.7.1
+# idna==3.11
+# pydantic_core==2.41.5
+# PyYAML==6.0.3
+# sniffio==1.3.1
+# starlette==0.50.0
+# typing_extensions==4.15.0
+# uvloop==0.22.1
+# watchfiles==1.1.1
+# websockets==15.0.1

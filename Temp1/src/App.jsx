@@ -14,6 +14,7 @@ import MenuBar from './components/MenuBar'
 import Cards from './components/Cards'
 import ParallaxGallery from './components/ParallaxGalery'
 import FileAudit from './Pages/FilesAudit'
+import Hallucination from './Pages/Hallucination'
 
 const App = () => {
   return (
@@ -25,8 +26,9 @@ const App = () => {
       <Story />
       <Contact />
       <MenuBar />
-      <Footer />  */}
-      <FileAudit/> 
+      <Footer />  
+      <FileAudit/> */}
+      <Hallucination/>
     </main>
   )
 }

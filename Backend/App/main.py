@@ -3,48 +3,60 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import pandas as pd
 import io
-import spacy
-from presidio_analyzer import AnalyzerEngine
-from presidio_anonymizer import AnonymizerEngine
-from presidio_anonymizer.entities import OperatorConfig
+
+# Import des routes AVANT la création de l'app
+from routes import hallucination_router, router
 
 # --- 1. CONFIGURATION DE L'APPLICATION ---
 app = FastAPI(
-    title="Detoxify API",
-    description="API de nettoyage de données pour Safe AI",
-    version="1.0.0"
+    title="Safe AI API",
+    description="API de nettoyage de données et détection d'hallucinations",
+    version="2.0.0"
 )
 
 # Configuration CORS (Indispensable pour React)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Autorise tout le monde (React, Postman...)
+    allow_origins=["*"],  # Autorise tout le monde (React, Postman...)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# --- 2. CONFIGURATION DU MOTEUR D'IA (PRESIDIO) ---
-# On charge les moteurs une seule fois au démarrage
+# --- 2. INCLUSION DES ROUTERS ---
+app.include_router(hallucination_router)  # Routes hallucination
+app.include_router(router)  # Routes detoxify
+
+# --- 3. CONFIGURATION DU MOTEUR D'IA (PRESIDIO) - Optionnel ---
 try:
-    # Essaie de charger le modèle Large, sinon Fallback sur le Small
-    # Assure-toi d'avoir fait: python -m spacy download en_core_web_lg
+    from presidio_analyzer import AnalyzerEngine
+    from presidio_anonymizer import AnonymizerEngine
+    from presidio_anonymizer.entities import OperatorConfig
+    
     analyzer = AnalyzerEngine() 
     anonymizer = AnonymizerEngine()
-    print("✅ Moteur IA chargé avec succès.")
+    print("✅ Moteur Presidio chargé avec succès.")
+except ImportError:
+    print("⚠️ Presidio non installé (normal si pas utilisé)")
+    analyzer = None
+    anonymizer = None
 except Exception as e:
-    print(f"⚠️ Erreur chargement IA: {e}")
+    print(f"⚠️ Erreur chargement Presidio: {e}")
+    analyzer = None
+    anonymizer = None
 
-# --- 3. FONCTION UTILITAIRE DE NETTOYAGE ---
+# --- 4. FONCTION UTILITAIRE DE NETTOYAGE ---
 def anonymiser_texte(texte_brut):
     """
     Fonction centrale qui prend un texte et renvoie le texte propre + stats.
     """
+    if analyzer is None or anonymizer is None:
+        return texte_brut, []
+    
     if not isinstance(texte_brut, str) or len(texte_brut) < 2:
         return texte_brut, []
 
     # A. Détection
-    # On analyse en anglais ('en') car le modèle est plus performant
     results = analyzer.analyze(
         text=texte_brut, 
         language='en',
@@ -75,21 +87,36 @@ def anonymiser_texte(texte_brut):
 
     return anonymized_result.text, stats
 
-# --- 4. MODÈLES DE DONNÉES (PYDANTIC) ---
+# --- 5. MODÈLES DE DONNÉES (PYDANTIC) ---
 class TextRequest(BaseModel):
     text: str
 
-# --- 5. ENDPOINTS (ROUTES) ---
+# --- 6. ENDPOINTS PRINCIPAUX ---
 
 @app.get("/")
 def root():
-    return {"status": "Online", "message": "SafeAI API is running 🚀"}
+    """Route principale"""
+    return {
+        "status": "Online", 
+        "message": "Safe AI API is running 🚀",
+        "services": {
+            "hallucination_detection": "✅ Active",
+            "detoxify": "✅ Active",
+            "anonymization": "✅ Active" if analyzer else "❌ Inactive"
+        },
+        "docs": "/docs"
+    }
 
 @app.post("/clean")
 def clean_text_endpoint(request: TextRequest):
     """
     Endpoint pour nettoyer du texte brut (Envoyé par React 'Input Zone')
     """
+    if analyzer is None:
+        return {
+            "error": "Service d'anonymisation non disponible. Installez presidio."
+        }
+    
     clean_text, stats = anonymiser_texte(request.text)
     
     return {
@@ -103,11 +130,22 @@ async def clean_file_endpoint(file: UploadFile = File(...)):
     """
     Endpoint pour nettoyer un fichier CSV complet
     """
+    if analyzer is None:
+        return {
+            "error": "Service d'anonymisation non disponible. Installez presidio."
+        }
+    
     try:
         # 1. Lire le fichier
         contents = await file.read()
-        # Conversion en DataFrame Pandas
-        df = pd.read_csv(io.StringIO(contents.decode('utf-8')))
+        
+        # Gérer différents encodages
+        try:
+            text_content = contents.decode('utf-8')
+        except UnicodeDecodeError:
+            text_content = contents.decode('latin-1')
+        
+        df = pd.read_csv(io.StringIO(text_content))
         
         # Copie pour "Avant"
         preview_original = df.head(10).fillna("").to_dict(orient='records')
@@ -115,12 +153,11 @@ async def clean_file_endpoint(file: UploadFile = File(...)):
         # 2. Nettoyer (Fonction appliquée sur chaque cellule)
         def clean_cell(cell_value):
             if isinstance(cell_value, str):
-                # On récupère juste le texte, pas les stats ici
                 clean, _ = anonymiser_texte(cell_value)
                 return clean
             return cell_value
 
-        # On applique sur tout le tableau (ça peut prendre quelques secondes)
+        # On applique sur tout le tableau
         df_cleaned = df.applymap(clean_cell)
         
         # Copie pour "Après"
@@ -136,8 +173,11 @@ async def clean_file_endpoint(file: UploadFile = File(...)):
     except Exception as e:
         return {"error": str(e)}
 
-# --- 6. LANCEMENT ---
+# --- 7. LANCEMENT ---
 if __name__ == "__main__":
     import uvicorn
-    # Lance le serveur sur le port 8000
+    print("\n🚀 Démarrage du serveur Safe AI...")
+    print("📡 Swagger UI: http://localhost:8000/docs")
+    print("🔍 Hallucination Detection: http://localhost:8000/api/v1/detect-hallucination")
+    print("\n")
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
