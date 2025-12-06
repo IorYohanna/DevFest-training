@@ -31,9 +31,9 @@ const App = () => {
       <Footer />  
       <FileAudit/> */}
       <Hallucination/>
-      <Footer />
+      {/* <Footer /> */}
 
-      <FileAudit />
+      {/* <FileAudit /> */}
     </main>
   )
 }
