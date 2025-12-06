@@ -1,0 +1,302 @@
+/* =======================================================
+   🎨 THEME : AURORA GLASS (Neo-Frontend)
+   ======================================================= */
+   :root {
+    --hd-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --hd-z-index: 2147483647; /* Max Z-index */
+    
+    /* Palette Douce */
+    --hd-bg-glass: rgba(255, 255, 255, 0.75);
+    --hd-bg-glass-dark: rgba(255, 255, 255, 0.95);
+    --hd-text-primary: #1a1a1a;
+    --hd-text-secondary: #666;
+    
+    /* Accents */
+    --hd-accent-success: #10b981;
+    --hd-accent-success-soft: rgba(16, 185, 129, 0.1);
+    --hd-accent-warning: #f59e0b;
+    --hd-accent-warning-soft: rgba(245, 158, 11, 0.1);
+    --hd-accent-brand: #6366f1;
+    
+    /* Gradients */
+    --hd-aurora: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%);
+  }
+  
+  /* Reset Global pour isolation */
+  #hd-root * {
+    box-sizing: border-box;
+    font-family: var(--hd-font);
+    margin: 0; padding: 0;
+    border: none;
+    outline: none;
+  }
+  
+  /* Container Global */
+  .hd-wrapper {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: var(--hd-z-index);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: hd-fade-in 0.3s ease-out forwards;
+  }
+  
+  .hd-wrapper.hd-exit {
+    animation: hd-fade-out 0.2s ease-in forwards;
+  }
+  
+  /* Backdrop Flouté */
+  .hd-backdrop {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  /* 🃏 LA CARTE (Composant Principal) */
+  .hd-card {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    background: var(--hd-bg-glass-dark);
+    border-radius: 24px;
+    box-shadow: 
+      0 20px 50px -12px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+    padding: 32px;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    animation: hd-spring-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    overflow: hidden;
+  }
+  
+  /* Loader Spécifique */
+  .hd-loader-card {
+    max-width: 300px;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .hd-aurora-bg {
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: var(--hd-aurora);
+    opacity: 0.15;
+    filter: blur(40px);
+    animation: hd-rotate 10s linear infinite;
+    z-index: 0;
+  }
+  
+  /* Animation Orbs (Loader) */
+  .hd-loader-visual {
+    position: relative;
+    height: 60px;
+    width: 60px;
+    margin: 0 auto 20px;
+  }
+  
+  .hd-orb {
+    position: absolute;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border: 3px solid var(--hd-accent-brand);
+    opacity: 0;
+    animation: hd-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  
+  .hd-orb.hd-delay {
+    animation-delay: 1s;
+  }
+  
+  /* Typographie */
+  .hd-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--hd-text-primary);
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  
+  .hd-title-sm {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--hd-text-primary);
+  }
+  
+  .hd-subtitle, .hd-desc {
+    font-size: 14px;
+    color: var(--hd-text-secondary);
+    line-height: 1.5;
+  }
+  
+  /* Résultat Layout */
+  .hd-header {
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hd-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    background: #f3f4f6;
+    color: #4b5563;
+  }
+  
+  .hd-theme-success .hd-badge {
+    background: var(--hd-accent-success-soft);
+    color: var(--hd-accent-success);
+  }
+  
+  .hd-theme-warning .hd-badge {
+    background: var(--hd-accent-warning-soft);
+    color: var(--hd-accent-warning);
+  }
+  
+  /* Glass Box (La zone de texte corrigée) */
+  .hd-glass-box {
+    background: rgba(243, 244, 246, 0.5);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 16px;
+    padding: 16px;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .hd-glass-box:hover {
+    background: rgba(243, 244, 246, 0.8);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  
+  .hd-glass-box p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--hd-text-primary);
+  }
+  
+  /* Boutons */
+  .hd-close-btn {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.05);
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+    z-index: 10;
+    color: var(--hd-text-secondary);
+  }
+  
+  .hd-close-btn:hover {
+    background: rgba(0,0,0,0.1);
+    transform: rotate(90deg);
+  }
+  
+  .hd-copy-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    color: var(--hd-text-primary);
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .hd-copy-btn:hover {
+    background: var(--hd-text-primary);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  
+  /* Labels */
+  .hd-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #9ca3af;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  
+  .hd-section {
+    margin-bottom: 24px;
+  }
+  
+  /* Sources Grid */
+  .hd-sources-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .hd-source-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--hd-text-secondary);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  
+  .hd-source-chip:hover {
+    border-color: var(--hd-accent-brand);
+    color: var(--hd-accent-brand);
+  }
+  
+  .hd-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #d1d5db;
+  }
+  
+  .hd-source-chip.valid .hd-dot { background: var(--hd-accent-success); }
+  .hd-source-chip.invalid .hd-dot { background: var(--hd-accent-warning); }
+  
+  /* ANIMATIONS (Keyframes) */
+  @keyframes hd-spring-up {
+    0% { transform: translateY(40px) scale(0.9); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  
+  @keyframes hd-fade-in {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  
+  @keyframes hd-fade-out {
+    from { opacity: 1; } to { opacity: 0; }
+  }
+  
+  @keyframes hd-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes hd-ping {
+    75%, 100% { transform: scale(2); opacity: 0; }
+  }

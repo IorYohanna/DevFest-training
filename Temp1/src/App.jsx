@@ -32,7 +32,6 @@ const App = () => {
       <FileAudit/> */}
       <Hallucination/>
       {/* <Footer /> */}
-
       {/* <FileAudit /> */}
     </main>
   )

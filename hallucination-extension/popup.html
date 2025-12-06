@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Hallucination Detector</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: 380px;
+      min-height: 500px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    /* Effet de fond animé */
+    body::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .container {
+      position: relative;
+      z-index: 1;
+      padding: 24px;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+      animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    
+    .header h1 {
+      font-size: 22px;
+      margin-bottom: 6px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.8));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .header p {
+      font-size: 13px;
+      opacity: 0.6;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+    
+    .status-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      animation: slideUp 0.6s ease-out 0.1s backwards;
+      transition: all 0.3s ease;
+    }
+    
+    .status-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(139, 92, 246, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .status-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .status-dot.offline {
+      background: #ef4444;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+    
+    .status-text {
+      font-size: 14px;
+      font-weight: 600;
+      flex: 1;
+    }
+    
+    .backend-info {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'SF Mono', 'Monaco', monospace;
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .backend-info code {
+      color: #8b5cf6;
+      font-weight: 600;
+    }
+    
+    .toggle-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      animation: slideUp 0.6s ease-out 0.2s backwards;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    .toggle-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+    
+    .toggle-label {
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .toggle-icon {
+      font-size: 18px;
+    }
+    
+    .toggle {
+      position: relative;
+      width: 52px;
+      height: 28px;
+    }
+    
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.1);
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 2px;
+      background: white;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    input:checked + .toggle-slider {
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      border-color: transparent;
+      box-shadow: 0 0 16px rgba(139, 92, 246, 0.5);
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+    
+    .instructions {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.8;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      animation: slideUp 0.6s ease-out 0.3s backwards;
+    }
+    
+    .instructions h3 {
+      font-size: 14px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    
+    .instructions ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .instructions li {
+      margin-bottom: 12px;
+      padding-left: 24px;
+      position: relative;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .instructions li:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #8b5cf6;
+      font-weight: bold;
+    }
+    
+    .instructions li:last-child {
+      margin-bottom: 0;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 11px;
+      opacity: 0.5;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      animation: slideUp 0.6s ease-out 0.4s backwards;
+    }
+    
+    /* Badge version */
+    .version-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(139, 92, 246, 0.15);
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #8b5cf6;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">🛡️</div>
+      <h1>Hallucination Detector</h1>
+      <p>Vérification IA en temps réel</p>
+    </div>
+    
+    <div class="status-card">
+      <div class="status-header">
+        <div class="status-dot" id="statusDot"></div>
+        <span class="status-text" id="statusText">Vérification...</span>
+      </div>
+      <div class="backend-info">
+        Backend: <code>localhost:8000</code>
+      </div>
+    </div>
+    
+    <div class="toggle-card">
+      <div class="toggle-label">
+        <span class="toggle-icon">⚡</span>
+        <span>Extension active</span>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="extensionToggle" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    
+    <div class="instructions">
+      <h3>📖 Mode d'emploi</h3>
+      <ul>
+        <li>Sélectionnez du texte sur un site web</li>
+        <li>Clic droit → "🔍 Vérifier cette sélection"</li>
+      </ul>
+    </div>
+    
+    <div class="footer">
+      Fiablilité avant tout
+      <span class="version-badge">v1.0.0</span>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
