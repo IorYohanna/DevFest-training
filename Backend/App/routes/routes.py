@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException,UploadFile,File
 from controllers.detoxify_controller import DetoxifyController
 from schemas.requests import TextAnalysisRequest, BatchAnalysisRequest
 from schemas.responses import (
@@ -60,3 +60,4 @@ async def health_check():
         return controller.health_check()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Service non disponible: {str(e)}")
+    

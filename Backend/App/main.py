@@ -1,7 +1,8 @@
 # main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import router
+from routes.routes import router
+from routes.ChatRoute import chat_route
 
 app = FastAPI(
     title="Detoxify API - Safe AI for Mankind",
@@ -18,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(router)
+app.include_router(chat_route)
 
 @app.get("/")
 def root():
