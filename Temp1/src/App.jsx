@@ -13,19 +13,20 @@ import ScrollGallery from './components/textLearn/ScrollGallery'
 import MenuBar from './components/MenuBar'
 import Cards from './components/Cards'
 import ParallaxGallery from './components/ParallaxGalery'
+import FileAudit from './Pages/FilesAudit'
 
 const App = () => {
   return (
     <main className="relative min-h-screen w-screen overflow-hidden">
-      <Hero />
+{/*       <Hero />
       <SectionHorizontal />
       <ParallaxGallery />
       <Features />
       <Story />
       <Contact />
       <MenuBar />
-      <ScrollGallery />
-      <Footer />
+      <Footer />  */}
+      <FileAudit/> 
     </main>
   )
 }
