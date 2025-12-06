@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import ThresholdSlider from "./sub-components/ThresholdSlider";
 import { fetchStats } from "../../api/detoxify";
 import ResultsPanel from "./sub-components/ResultsPanel";
+import { Link } from "react-router-dom";
 
 const Detoxify = () => {
   const [inputText, setInputText] = useState("");
@@ -136,13 +137,15 @@ const API_BASE_URL = "http://localhost:8000/api/v1";
               </div>
 
               <div className="flex">
-                <button className="flex items-center justify-center gap-5 px-2 py-2 bg-gradient-to-r bg-gray-600/80  hover:from-purple-600 hover:via-red-500 hover:to-yellow-400 text-white font-medium rounded-full shadow-lg transition-all duration-500">
+                <Link
+                  to="/instagram"
+                  className="flex items-center justify-center gap-5 px-2 py-2 bg-gradient-to-r bg-gray-600/80 hover:from-purple-600 hover:via-red-500 hover:to-yellow-400 text-white font-medium rounded-full shadow-lg transition-all duration-500"
+                >
                   <p className="ml-5">Demo</p>
                   <div className="flex items-center justify-center h-10 w-10 rounded-full bg-white">
-                    <ArrowUpRight icon="solar:arrow-up-right-bold" className="text-lg text-black" />
-
+                    <ArrowUpRight className="text-lg text-black" />
                   </div>
-                </button>
+                </Link>
               </div>
             </div>
 
