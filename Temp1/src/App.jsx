@@ -23,9 +23,9 @@ const App = () => {
   return (
     <main className="relative min-h-screen w-screen overflow-hidden">
       {/* <Hero />
-      <Section/>
+      <Section/> */}
       <SectionHorizontal />
-      <ParallaxGallery /> */}
+      <ParallaxGallery /> 
       {/* <Features />
       <Story />
       <Contact />
@@ -36,8 +36,8 @@ const App = () => {
       {/* <Footer /> */}
 
       {/* <FileAudit /> */}
-      <Detoxify/>
-      <Instagram/>
+      {/* <Detoxify/> */}
+      {/* <Instagram/> */}
     </main>
   )
 }

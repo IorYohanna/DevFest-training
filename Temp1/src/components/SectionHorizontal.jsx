@@ -11,30 +11,30 @@ const SECTIONS = [
     title: "L'Ère de l'IA",
     subtitle: "CONTEXTE GLOBAL",
     description: "L'IA est partout. Puissante mais imparfaite, son adoption est sans précédent. Elle ne reviendra pas en arrière et redéfinit notre navigation dans le monde numérique.",
-    bg: "bg-[#0B1120]", // Bleu nuit très sombre
+    bg: "bg-[#2b354d]/30", // Bleu nuit très sombre
     accent: "text-[#38BDF8]", // Bleu Cyan électrique
     // Image : Réseau de neurones abstrait / Connexions
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000"
+    image: ".//img/background/woman3.jpeg"
   },
   {
     id: 2,
     title: "Notre Mission",
     subtitle: "SAFE AI FOR MANKIND",
     description: "Face aux 'bad actors', c'est à nous, experts tech, de guider cette puissance. Orientez l'IA vers une direction RESPONSABLE et SÛRE pour le bien de l'humanité.",
-    bg: "bg-[#064E3B]", // Vert sombre (Matrice/Sécurité)
+    bg: "bg-[#064E3B]/50", // Vert sombre (Matrice/Sécurité)
     accent: "text-[#34D399]", // Vert émeraude néon
     // Image : Main humaine vs Technologie / Protection
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000"
+    image: "./img/background/ia3.jpg"
   },
   {
     id: 3,
     title: "Le Challenge",
     subtitle: "INGÉNIERIE LOGICIELLE",
     description: "Identifiez un risque. Codez une solution. Critères : Originalité, Criticité, Efficacité, UX et Extensibilité. Prouvez que le code peut résoudre les problèmes de l'IA.",
-    bg: "bg-[#312E81]", // Violet/Indigo profond
+    bg: "bg-[#312E81]/30", // Violet/Indigo profond
     accent: "text-[#A78BFA]", // Violet clair lumineux
     // Image : Code / Développement / Futur
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000"
+    image: "./img/background/ia.jpg"
   }
 ];
 
@@ -179,7 +179,7 @@ function SectionHorizontal() {
   };
 
   return (
-    <div ref={componentRef} className="overscroll-none h-screen w-full overflow-hidden bg-black">
+    <div ref={componentRef} className="overscroll-none h-screen w-full overflow-hidden bg-black ">
       <div ref={sliderRef} className="flex h-full w-[300vw]">
         
         {SECTIONS.map((section, index) => (
