@@ -21,8 +21,8 @@ const SECTIONS = [
     title: "Notre Mission",
     subtitle: "SAFE AI FOR MANKIND",
     description: "Face aux 'bad actors', c'est à nous, experts tech, de guider cette puissance. Orientez l'IA vers une direction RESPONSABLE et SÛRE pour le bien de l'humanité.",
-    bg: "bg-[#064E3B]/50", // Vert sombre (Matrice/Sécurité)
-    accent: "text-[#34D399]", // Vert émeraude néon
+    bg: "bg-[#4e0606]/50", // Vert sombre (Matrice/Sécurité)
+    accent: "text-[#ff2200]", // Vert émeraude néon
     // Image : Main humaine vs Technologie / Protection
     image: "./img/background/ia3.jpg"
   },
@@ -185,7 +185,7 @@ function SectionHorizontal() {
         {SECTIONS.map((section, index) => (
           <div 
             key={section.id} 
-            className={`section-${index} relative h-screen w-screen flex items-center justify-center ${section.bg} overflow-hidden`}
+            className={`section-${index} relative h-screen w-screen flex items-center justify-center ${section.bg} overflow-hidden `}
           >
             
             {/* Image de fond (Overlay) légèrement moins opaque pour le thème sombre */}
@@ -210,7 +210,7 @@ function SectionHorizontal() {
                   </div>
                 </h2>
 
-                <p className={`desc-${index} text-gray-300 text-xl max-w-md mt-8 border-l-2 border-white/20 pl-6`}>
+                <p className={`desc-${index} text-gray-300 text-xl max-w-md mt-8 border-l-2 border-white/20 pl-6 `}>
                   {section.description}
                 </p>
                 

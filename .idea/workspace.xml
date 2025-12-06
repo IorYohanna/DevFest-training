@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0ff1c750-c11d-4d5f-ade7-380652950fc6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/Temp1/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Temp1/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Temp1/src/components/Hero.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Temp1/src/components/Hero.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Temp1/src/components/MenuBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Temp1/src/components/MenuBar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Temp1/src/components/Section.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Temp1/src/components/Section.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Temp1/src/components/TypeTicker.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Temp1/src/components/TypeTicker.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
