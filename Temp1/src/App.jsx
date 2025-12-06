@@ -31,12 +31,11 @@ const App = () => {
       <Contact />
       <MenuBar />
       <Footer />  
-      <FileAudit/> */}
-      {/* <Hallucination/> */}
-      {/* <Footer /> */}
+            <Hallucination/>
+ */}
 
-      {/* <FileAudit /> */}
-      {/* <Detoxify/> */}
+      {/* <Footer />       <FileAudit /> */}
+      <Detoxify/>
       <Instagram/>
     </main>
   )

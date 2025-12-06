@@ -9,9 +9,11 @@ const Detoxify = () => {
   const [inputText, setInputText] = useState("");
   const [detoxifyResult, setDetoxifyResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(null);
   const [threshold, setThreshold] = useState(0.5);
   const [stats, setStats] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [activeTab, setActiveTab] = useState("analyze"); // analyze, filter, batch
 
 const API_BASE_URL = "http://localhost:8000/api/v1";
