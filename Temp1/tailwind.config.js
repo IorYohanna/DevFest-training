@@ -14,6 +14,9 @@ export default {
         classyvogue: ["classyvogue", "sans-serif"],
         sagita: ["sagita", "sans-serif"],
         lamoric: ["lamoric", "sans-serif"],
+        transformers : [ "transformers", "sans-serif"],
+        bitsumis : [ "bitsumis", "sans-serif"],
+        batman : [ "batman", "sans-serif"],
       },
 
       colors: {

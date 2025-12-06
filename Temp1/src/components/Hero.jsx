@@ -12,28 +12,28 @@ const Hero = () => {
     const [currentIndex, setCurrentIndex] = useState(1)
     const [hasClicked, setHasClicked] = useState(false)
     const [isLoading, setisLoading] = useState(true)
-    const [loadedVideos, setloadedVideos] = useState(0) 
+    const [loadedVideos, setloadedVideos] = useState(0)
 
     const totalVideos = 3
     const nextVideoRef = useRef(null)
-    
+
     const upcomingVideoIndex = (currentIndex % totalVideos) + 1
 
     const handleMiniVideoClick = () => {
         setHasClicked(true)
-        setCurrentIndex( upcomingVideoIndex )
+        setCurrentIndex(upcomingVideoIndex)
     }
 
-    const getVideoSource = (index) => `/video/hero-${index}.mp4`
+    const getVideoSource = (index) => `/video/tech${index}.mp4`
 
 
     //permet l'animation d'insertion dans un autre univers(pages)
-    useGSAP ( () => {
+    useGSAP(() => {
         if (hasClicked) {
             gsap.set('#next-video', { visibility: 'visible' })
 
             gsap.to('#next-video', {
-                transformOrigin : 'center center',
+                transformOrigin: 'center center',
                 scale: 1,
                 width: "100%",
                 height: "100%",
@@ -46,14 +46,14 @@ const Hero = () => {
                 transformOrigin: 'center center',
                 scale: 0,
                 duration: 1.5,
-                ease:'power1.inOut',
+                ease: 'power1.inOut',
             })
         }
 
-    }, {dependencies: [currentIndex] ,revertOnUpdate: true})
+    }, { dependencies: [currentIndex], revertOnUpdate: true })
 
     //animation de scroll transition
-    useGSAP( () => {
+    useGSAP(() => {
         gsap.set('#video-frame', {
             clipPath: 'polygon(14% 0%, 72% 0%, 90% 90%, 0% 100%)',
             borderRadius: '0 0 40% 10%',
@@ -74,20 +74,20 @@ const Hero = () => {
 
 
     const handleVideoLoaded = () => {
-        setloadedVideos( (prev) => prev + 1 )
+        setloadedVideos((prev) => prev + 1)
     }
 
     //charge only the loading when re-render
-    useEffect ( () => {
-        if(loadedVideos === totalVideos - 1) {
+    useEffect(() => {
+        if (loadedVideos === totalVideos - 1) {
             setisLoading(false)
         }
     }, [loadedVideos])
-    
-    return (   
+
+    return (
         //loading moment
         <div className='relative h-dvh w-screen overflow-hidden'>
-            { isLoading && (
+            {isLoading && (
                 <div className='flex-center absolute z-100 h-dvh w-screen overflow-hidden bg-violet-50'>
                     <div className='three-body'>
                         <div className='three-body__dot'></div>
@@ -96,35 +96,35 @@ const Hero = () => {
                     </div>
                 </div>
             )}
-            
-            <div 
-                id='video-frame' 
+
+            <div
+                id='video-frame'
                 className='relative z-10 h-dvh w-screen overflow-hidden 
                 rounded-lg bg-blue-75'
             >
                 <div>
                     {/* change the video when we hover it*/}
                     <div className='mask-clip-path absolute-center z-50 size-64 cursor-pointer overflow-hidden rounded-lg'>
-                        <div 
-                        onClick={handleMiniVideoClick}
-                        className='origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100'
-                        > 
+                        <div
+                            onClick={handleMiniVideoClick}
+                            className='origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100'
+                        >
                             <video
-                                ref={nextVideoRef} 
+                                ref={nextVideoRef}
                                 src={getVideoSource(upcomingVideoIndex)}
                                 loop
                                 muted
                                 id='current-video'
                                 className='size-64 origin-center scale-150 object-cover object-center'
                                 onLoadedData={handleVideoLoaded}
-                                />
+                            />
                         </div>
                     </div>
-                
+
                     {/*garantie la fluidite de la transition entre chaque video */}
                     <video
-                        ref={nextVideoRef} 
-                        src={getVideoSource (currentIndex)}
+                        ref={nextVideoRef}
+                        src={getVideoSource(currentIndex)}
                         autoPlay
                         loop
                         muted
@@ -134,7 +134,7 @@ const Hero = () => {
                     />
 
                     <video
-                        src={getVideoSource ((currentIndex === totalVideos - 1) ? 1 : currentIndex)}
+                        src={getVideoSource((currentIndex === totalVideos - 1) ? 1 : currentIndex)}
                         autoPlay
                         loop
                         className='absolute left-0 top-0 size-full object-cover'
@@ -143,48 +143,57 @@ const Hero = () => {
 
                 </div>
 
-                <h1 className='special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-50'>
-                    Vit<b>a</b>!
+                <h1 className='special-font text-[6rem] font-transformers absolute bottom-5 text-end right-10 z-40 text-blue-50 leading-none'>
+                    <span className='block text-blue-50/30 drop-shadow-[0_0_40px_rgba(255,255,255,0.3)]'>
+                        SAFE AI
+                    </span>
+                    <span className='block text-blue-100/30 font-light tracking-wide'>
+                        FOR MANKIND
+                    </span>
                 </h1>
 
-                <div className='absolute left-0 top-0 z-40 size-full'>
-                    <div className='mt-24 px-5 sm:px-10'>
+                <div className='absolute font-batman left-8 top-24 z-40 max-w-xl md:left-16 md:top-32'>
+                    <div className='space-y-8'>
 
-                        <h1 className='font-vogue hero-heading text-blue-100'>
-                            <b>O</b>utsiders
-                        </h1>
+                        <h2 className='text-3xl md:text-4xl lg:text-5xl text-white leading-tight tracking-tight mt-32'>
+                            Ce que Norton est a, <span className='text-gray-300'>Internet</span>, <br />
+                            nous le sommes a l' <span className='text-blue-100'>IA.</span>
+                        </h2>
 
-                        <p className='mb-5 max-w-64 font-classyvogue text-blue-100'>
-                            Let us do the Game <br/> We'll bring some fun stuff
+                        <p className='text-base md:text-lg text-blue-100/90 leading-relaxed max-w-lg'>
+                            Nous construisons l'infrastructure de confiance pour l'ère de l'intelligence artificielle.
+                            <span className='block mt-3 text-white font-medium'>
+                                Chaque donnée mérite d'être protégée. Chaque modèle doit être éthique.
+                            </span>
                         </p>
 
-
-                        <Button 
-                        id='watch-trailer'
-                        title='watchTrailer'
-                        leftIcon={ <TiLocationArrow />}
-                        ContainerClass = "!bg-yellow-300 flex-center gap-1"
-                        />
-    
+                        <div className='flex items-center gap-4 pt-2'>
+                            <Button
+                                id='Explorer'
+                                title='Découvrir notre vision'
+                                leftIcon={<TiLocationArrow />}
+                                ContainerClass="!bg-gray-300 hover:!bg-white text-black font-semibold px-6 py-3 flex-center gap-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(253,224,71,0.4)]"
+                            />
+                        </div>
                     </div>
-                    
                 </div>
-
             </div>
 
-            <a href='#chatbot' className='group absolute bottom-5 left-5 z-50 w-fit cursor-pointer overflow-hidden 
-    rounded-full bg-violet-50 px-7 py-3 text-black flex gap-2 '>
-        go
+            <a
+                href='#chatbot'
+                className='group absolute bottom-8 left-1/2 -translate-x-1/2 z-50 cursor-pointer flex flex-col items-center gap-2 sm:bottom-12'
+            >
+                <span className='text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white/60 font-light'>Scroll</span>
+                <div className='w-[1px] h-12 bg-white/30 group-hover:h-16 transition-all duration-300'></div>
             </a>
 
-            {/* under the video so when scrolling it gives a kind of animation*/}
-            <h1 className='special-font hero-heading absolute bottom-5 right-5 text-black'>
-                Vit<b>a</b>!
+            <h1 className='font-transformers leading-none text-[6rem] text-end absolute bottom-5 right-10 text-black'>
+                Safe AI <br /> for mankind
             </h1>
 
-        </div> 
+        </div>
 
-  )
+    )
 }
 
 export default Hero

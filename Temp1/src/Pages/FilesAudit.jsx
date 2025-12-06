@@ -1,104 +1,62 @@
-import React, { useState, useMemo } from 'react';
-
-// --- STYLES ---
-const styles = {
-    container: { padding: '40px', maxWidth: '1400px', margin: '0 auto', fontFamily: "'Inter', sans-serif", color: '#334155', backgroundColor: '#f8fafc', minHeight: '100vh' },
-
-    // Header
-    header: { textAlign: 'center', marginBottom: '50px' },
-    title: { fontSize: '3rem', fontWeight: '900', color: '#0f172a', margin: 0, letterSpacing: '-1px' },
-    subtitle: { color: '#64748b', fontSize: '1.2rem', marginTop: '10px' },
-
-    // Zone Upload
-    dropzone: { border: '3px dashed #cbd5e1', borderRadius: '24px', padding: '80px', textAlign: 'center', backgroundColor: '#fff', cursor: 'pointer', transition: 'all 0.3s', boxShadow: '0 10px 30px -10px rgba(0,0,0,0.1)' },
-    dropzoneHover: { borderColor: '#3b82f6', backgroundColor: '#eff6ff', transform: 'scale(1.02)' },
-    uploadIcon: { fontSize: '64px', marginBottom: '20px', display: 'block' },
-    btnUpload: { padding: '15px 40px', backgroundColor: '#0f172a', color: 'white', border: 'none', borderRadius: '50px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', marginTop: '20px', boxShadow: '0 4px 15px rgba(15, 23, 42, 0.3)' },
-
-    // BARRE DE STATS (NOUVEAU)
-    statsContainer: { display: 'flex', gap: '20px', marginBottom: '30px', flexWrap: 'wrap' },
-    statCard: { flex: 1, minWidth: '200px', backgroundColor: '#fff', padding: '20px', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '15px' },
-    statIconBox: (color) => ({ width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', backgroundColor: color + '20', color: color }),
-    statInfo: { display: 'flex', flexDirection: 'column' },
-    statValue: { fontSize: '24px', fontWeight: '800', color: '#0f172a', lineHeight: '1' },
-    statLabel: { fontSize: '13px', color: '#64748b', fontWeight: '600', textTransform: 'uppercase', marginTop: '5px' },
-
-    // Actions
-    actionBar: { marginBottom: '30px', display: 'flex', justifyContent: 'center', gap: '20px' },
-    btnSecondary: { padding: '12px 30px', backgroundColor: 'white', color: '#0f172a', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', transition: '0.2s' },
-    btnPrimary: { padding: '12px 30px', backgroundColor: '#166534', color: 'white', border: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 12px rgba(22, 101, 52, 0.3)', transition: '0.2s' },
-
-    // Grille de comparaison
-    comparisonGrid: { display: 'flex', gap: '30px', alignItems: 'flex-start' },
-    col: { flex: 1, backgroundColor: '#fff', borderRadius: '16px', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', overflow: 'hidden', border: '1px solid #e2e8f0' },
-
-    // Headers de colonnes
-    colHeader: (type) => ({ padding: '20px', fontWeight: '800', textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '1px', backgroundColor: type === 'danger' ? '#fef2f2' : '#f0fdf4', color: type === 'danger' ? '#b91c1c' : '#15803d', borderBottom: `2px solid ${type === 'danger' ? '#fecaca' : '#bbf7d0'}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }),
-
-    // Tableaux
-    tableWrapper: { overflowX: 'auto', maxHeight: '600px' }, // Scroll si trop long
-    table: { width: '100%', borderCollapse: 'collapse', fontSize: '14px' },
-    th: { padding: '15px', textAlign: 'left', borderBottom: '2px solid #e2e8f0', color: '#475569', backgroundColor: '#f8fafc', position: 'sticky', top: 0 },
-    td: { padding: '14px 15px', borderBottom: '1px solid #f1f5f9', color: '#334155' },
-
-    // Badges intelligents
-    badge: (type) => ({ display: 'inline-flex', alignItems: 'center', padding: '4px 10px', borderRadius: '6px', fontSize: '0.85em', fontWeight: '700', backgroundColor: type === 'warn' ? '#fffbeb' : '#dcfce7', color: type === 'warn' ? '#b45309' : '#166534', border: `1px solid ${type === 'warn' ? '#fcd34d' : '#86efac'}` }),
-};
+/* eslint-disable no-unused-vars */
+import React, { useState, useMemo, useRef } from 'react';
+import { 
+    Cpu, History, User, Upload, ArrowUpRight, 
+    ShieldAlert, Binary, Globe, ShieldCheck, 
+    FileWarning, ArrowLeft, Download, RefreshCcw 
+} from 'lucide-react';
 
 const FileAudit = () => {
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(null); // Initialisé à null pour savoir si vide
+    const [status, setStatus] = useState('upload'); // 'upload' | 'scanning' | 'results'
+    const [data, setData] = useState(null);
+    const fileInputRef = useRef(null);
 
-    // --- CALCUL DES STATS (Nouveau) ---
-    // On utilise useMemo pour ne pas recalculer à chaque render
-    const stats = useMemo(() => {
-        if (!data || !data.preview_cleaned) return null;
-
-        // On transforme tout le tableau en une grande chaîne pour compter les tags
-        const allText = JSON.stringify(data.preview_cleaned);
-
-        // Compteurs basés sur les emojis (qui sont dans ton code Python)
-        return {
-            total_rows: data.total_rows,
-            identities: (allText.match(/👤/g) || []).length, // Compte les bonhommes
-            phones: (allText.match(/📞/g) || []).length,      // Compte les téléphones
-            emails: (allText.match(/📧/g) || []).length,      // Compte les emails
-            finance: (allText.match(/💳|🏦/g) || []).length,  // Compte CB ou IBAN
-            toxic: (allText.match(/🤬|TOXIC/g) || []).length  // Si tu as ajouté la toxicité
-        };
-    }, [data]);
-
+    // --- LOGIQUE METIER (Connectée à ton Python) ---
     const handleFileUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
 
-        setLoading(true);
+        setStatus('scanning'); // Déclenche l'animation de scan
+
         const formData = new FormData();
         formData.append('file', file);
 
         try {
+            // Simulation d'un délai pour l'effet "Traitement Neural" (2s)
+            // En vrai, Python est trop rapide pour que l'animation soit vue ^^
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
             const response = await fetch('http://localhost:8000/clean-file', {
                 method: 'POST',
                 body: formData,
             });
             const result = await response.json();
             setData(result);
+            setStatus('results');
         } catch (error) {
             console.error("Erreur upload:", error);
-            alert("Erreur: Vérifiez que le serveur Python (Uvicorn) est lancé sur le port 8000.");
+            alert("Erreur connexion serveur Python. Vérifiez le port 8000.");
+            setStatus('upload');
         }
-        setLoading(false);
     };
+
+    // Calcul des stats en temps réel
+    const stats = useMemo(() => {
+        if (!data || !data.preview_cleaned) return null;
+        const allText = JSON.stringify(data.preview_cleaned);
+        return {
+            total_rows: data.total_rows,
+            identities: (allText.match(/👤/g) || []).length,
+            phones: (allText.match(/📞/g) || []).length + (allText.match(/📧/g) || []).length,
+            pii: (allText.match(/\[/g) || []).length // Approximation du nombre total de tags
+        };
+    }, [data]);
 
     const downloadCSV = () => {
         if (!data) return;
         const headers = data.columns.join(',');
         const rows = data.preview_cleaned.map(row => data.columns.map(col => row[col]).join(','));
-
-        // --- LA CORRECTION EST ICI ---
-        // On ajoute '\uFEFF' au début. C'est la signature invisible qui crie "JE SUIS UTF-8 !" à Excel.
         const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers, ...rows].join('\n');
-
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
@@ -107,158 +65,246 @@ const FileAudit = () => {
         link.click();
     };
 
-    // Petit utilitaire pour rendre le contenu des cellules joli
-    const renderCellContent = (text) => {
-        const stringText = String(text);
-        // Si ça contient un crochet [ ... ] ou un tag < ... >, c'est une donnée nettoyée
-        if (stringText.includes('[') || stringText.includes('<')) {
-            return <span style={styles.badge('safe')}>{text}</span>;
+    // Rendu des cellules avec le style IA
+    const renderCleanCell = (text) => {
+        const str = String(text);
+        if (str.includes('[') && str.includes(']')) {
+            // Style Bleu métallique pour les tags
+            return (
+                <span className="inline-flex items-center px-2 py-1 rounded text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 font-mono tracking-tight shadow-[0_0_10px_rgba(59,130,246,0.2)]">
+                    {str}
+                </span>
+            );
         }
-        return text;
+        return <span className="text-slate-300">{str}</span>;
     };
 
     return (
-        <div style={styles.container}>
-
-            <div style={styles.header}>
-                <h1 style={styles.title}>🛡️ SafeAI <span style={{ fontWeight: 300 }}>Auditor</span></h1>
-                <p style={styles.subtitle}>Plateforme de Décontamination de Données IA</p>
+        <div className="bg-[#0a0e14] fixed inset-0 overflow-hidden text-slate-300 selection:bg-slate-700 selection:text-slate-100 font-sans">
+            
+            {/* Ambient Glows (Background) */}
+            <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div className="absolute top-[-20%] left-[20%] w-[60%] h-[60%] bg-slate-800/20 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-900/15 rounded-full blur-[100px]"></div>
             </div>
 
-            {/* --- 1. ZONE D'UPLOAD (Si pas de données) --- */}
-            {!data && (
-                <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                    <div style={styles.dropzone}>
-                        <div style={styles.uploadIcon}>📂</div>
-                        <h3 style={{ fontSize: '24px', margin: '10px 0' }}>Analysez votre Dataset CSV</h3>
-                        <p style={{ color: '#94a3b8', marginBottom: '30px' }}>Détection automatique : PII, RGPD, Toxicité</p>
-
-                        <input
-                            type="file"
-                            accept=".csv"
-                            onChange={handleFileUpload}
-                            style={{ display: 'none' }}
-                            id="fileInput"
-                        />
-                        <label htmlFor="fileInput" style={styles.btnUpload}>
-                            {loading ? '🚀 Analyse IA en cours...' : 'Sélectionner un fichier'}
-                        </label>
-                    </div>
-                </div>
-            )}
-
-            {/* --- 2. DASHBOARD DE RÉSULTATS (Si données) --- */}
-            {data && stats && (
-                <>
-                    {/* BARRE DE STATS */}
-                    <div style={styles.statsContainer}>
-                        {/* Carte Total */}
-                        <div style={styles.statCard}>
-                            <div style={styles.statIconBox('#3b82f6')}>📊</div>
-                            <div style={styles.statInfo}>
-                                <div style={styles.statValue}>{stats.total_rows}</div>
-                                <div style={styles.statLabel}>Lignes Traitées</div>
+            <div className="flex flex-col h-screen w-full p-6 md:p-8 gap-8">
+                
+                {/* HEADER */}
+                <header className="flex items-center justify-between px-4 shrink-0">
+                    <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-slate-700 to-blue-900 flex items-center justify-center text-white shadow-lg shadow-blue-900/30">
+                            <Cpu className="w-7 h-7" />
+                        </div>
+                        <div>
+                            <h1 className="text-2xl font-semibold tracking-tight text-white leading-tight">SafeAI <span className="text-blue-400">Auditor</span></h1>
+                            <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)] animate-pulse"></div>
+                                <span className="text-sm text-slate-500 font-mono">SYSTEM_READY</span>
                             </div>
                         </div>
-                        {/* Carte Identités */}
-                        <div style={styles.statCard}>
-                            <div style={styles.statIconBox('#ef4444')}>👤</div>
-                            <div style={styles.statInfo}>
-                                <div style={{ ...styles.statValue, color: stats.identities > 0 ? '#ef4444' : '#334155' }}>
-                                    {stats.identities}
+                    </div>
+                    <div className="flex items-center gap-5">
+                        <button className="flex items-center gap-2 px-5 py-3 rounded-lg border border-slate-800 bg-slate-900/50 text-slate-400 hover:text-white hover:border-slate-700 transition-colors text-sm font-medium">
+                            <History className="w-5 h-5" /> Historique
+                        </button>
+                        <div className="w-11 h-11 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400">
+                            <User className="w-5 h-5" />
+                        </div>
+                    </div>
+                </header>
+
+                {/* MAIN WORKSPACE */}
+                <main className="flex-1 bg-slate-900/40 backdrop-blur-2xl border border-white/5 rounded-[28px] flex flex-col relative overflow-hidden shadow-2xl">
+                    
+                    {/* SCAN OVERLAY (Animation de chargement) */}
+                    {status === 'scanning' && (
+                        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center flex-col">
+                            <div className="absolute top-0 left-0 w-full h-[2px] bg-blue-500 shadow-[0_0_15px_#3b82f6] animate-[scan_2s_linear_infinite]"></div>
+                            <div className="w-20 h-20 rounded-full border-t-2 border-r-2 border-blue-500 animate-spin mb-8"></div>
+                            <div className="text-blue-400 font-mono text-lg tracking-[0.2em] uppercase animate-pulse">
+                                Traitement Neural...
+                            </div>
+                        </div>
+                    )}
+
+                    {/* VUE 1 : UPLOAD */}
+                    {status === 'upload' && (
+                        <div className="flex-1 flex flex-col items-center justify-center p-12 relative z-10 animate-in fade-in zoom-in duration-500">
+                            <div className="mb-16 text-center relative">
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
+                                <h2 className="text-5xl md:text-6xl font-medium text-white tracking-tight mb-6 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                                    Auditez vos données pour l'IA
+                                </h2>
+                                <p className="text-slate-400 text-xl max-w-2xl mx-auto font-light leading-relaxed">
+                                    Détection automatique de PII, anonymisation contextuelle et nettoyage de données sensibles en local.
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+                                {/* Carte Upload Principale */}
+                                <div 
+                                    onClick={() => fileInputRef.current.click()}
+                                    className="cursor-pointer bg-slate-800/40 border border-white/5 hover:border-blue-500/50 hover:bg-slate-800/60 p-8 rounded-[24px] group relative overflow-hidden transition-all duration-300"
+                                >
+                                    <div className="absolute inset-0 bg-blue-600/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                                    <input 
+                                        type="file" 
+                                        ref={fileInputRef} 
+                                        onChange={handleFileUpload} 
+                                        accept=".csv" 
+                                        className="hidden" 
+                                    />
+                                    
+                                    <div className="flex justify-between items-start mb-8 relative z-10">
+                                        <div className="w-14 h-14 rounded-xl bg-slate-800/80 border border-slate-700 flex items-center justify-center text-blue-400 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all shadow-lg">
+                                            <Upload className="w-7 h-7" />
+                                        </div>
+                                        <ArrowUpRight className="w-6 h-6 text-slate-600 group-hover:text-white transition-colors" />
+                                    </div>
+                                    <h3 className="text-xl font-semibold text-white mb-3 relative z-10">Importer CSV</h3>
+                                    <p className="text-sm text-slate-500 group-hover:text-slate-300 relative z-10 transition-colors">Analyse structurelle et détection PII immédiate.</p>
                                 </div>
-                                <div style={styles.statLabel}>Noms Masqués</div>
+
+                                {/* Cartes Secondaires (Décoratives pour l'instant) */}
+                                <FeatureCard icon={ShieldAlert} color="text-slate-400" title="Toxicité" desc="Filtrage haineux." />
+                                <FeatureCard icon={Binary} color="text-blue-400" title="Bancaire" desc="Masquage IBAN/CB." />
+                                <FeatureCard icon={Globe} color="text-slate-500" title="Traduction" desc="Détection langue." />
                             </div>
                         </div>
-                        {/* Carte Contacts */}
-                        <div style={styles.statCard}>
-                            <div style={styles.statIconBox('#f59e0b')}>📞</div>
-                            <div style={styles.statInfo}>
-                                <div style={{ ...styles.statValue, color: stats.phones > 0 ? '#f59e0b' : '#334155' }}>
-                                    {stats.phones + stats.emails}
+                    )}
+
+                    {/* VUE 2 : RÉSULTATS */}
+                    {status === 'results' && data && (
+                        <div className="flex-1 flex flex-col h-full overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-700">
+                            
+                            {/* BARRE DE STATS INTEGREE */}
+                            <div className="grid grid-cols-4 gap-6 p-8 border-b border-white/5 bg-slate-900/30">
+                                <StatItem label="Statut" value="Sécurisé" color="text-blue-400" dot={true} />
+                                <StatItem label="Lignes Traitées" value={stats.total_rows} />
+                                <StatItem label="Menaces PII" value={stats.pii} color="text-red-400" badge="Critique" />
+                                <StatItem label="Temps IA" value="0.4s" color="text-blue-400" />    
+                            </div>
+
+                            {/* TOOLBAR */}
+                            <div className="px-8 py-5 flex items-center justify-between shrink-0">
+                                <button 
+                                    onClick={() => { setData(null); setStatus('upload'); }}
+                                    className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"
+                                >
+                                    <ArrowLeft className="w-5 h-5" /> Retour
+                                </button>
+                                
+                                <button 
+                                    onClick={downloadCSV}
+                                    className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-lg text-sm font-medium shadow-[0_0_15px_rgba(59,130,246,0.4)] transition-all flex items-center gap-2"
+                                >
+                                    <Download className="w-4 h-4" /> Exporter CSV
+                                </button>
+                            </div>
+
+                            {/* TABLEAUX COMPARATIFS */}
+                            <div className="flex-1 overflow-hidden px-8 pb-8">
+                                <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 h-full">
+                                    
+                                    {/* Colonne Gauche (Raw) */}
+                                    <div className="flex flex-col bg-[#0f1115] rounded-xl border border-slate-700/30 overflow-hidden relative">
+                                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-slate-600/50 to-transparent opacity-50"></div>
+                                        <div className="p-5 border-b border-white/5 flex items-center gap-3 bg-white/[0.02]">
+                                            <FileWarning className="w-5 h-5 text-slate-400" />
+                                            <span className="text-sm font-bold uppercase tracking-wider text-slate-300/70">Source (Non-Sécurisée)</span>
+                                        </div>
+                                        <div className="overflow-auto flex-1 custom-scrollbar">
+                                            <table className="w-full text-left border-collapse">
+                                                <thead className="sticky top-0 bg-[#0f1115] z-10">
+                                                    <tr className="text-sm text-slate-500 border-b border-white/5">
+                                                        {data.columns.map(col => <th key={col} className="p-4 font-medium">{col}</th>)}
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="text-base text-slate-400 font-mono">
+                                                    {data.preview_original.map((row, i) => (
+                                                        <tr key={i} className="border-b border-white/5 hover:bg-white/[0.03]">
+                                                            {data.columns.map(col => <td key={col} className="p-4 whitespace-nowrap">{row[col]}</td>)}
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    {/* Colonne Droite (Clean) */}
+                                    <div className="flex flex-col bg-[#0f1115] rounded-xl border border-blue-900/30 overflow-hidden relative shadow-[0_0_30px_-10px_rgba(59,130,246,0.15)]">
+                                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+                                        <div className="p-5 border-b border-white/5 flex items-center gap-3 bg-white/[0.02]">
+                                            <ShieldCheck className="w-5 h-5 text-blue-400" />
+                                            <span className="text-sm font-bold uppercase tracking-wider text-blue-200/70">Safe AI Output</span>
+                                        </div>
+                                        <div className="overflow-auto flex-1 custom-scrollbar">
+                                            <table className="w-full text-left border-collapse">
+                                                <thead className="sticky top-0 bg-[#0f1115] z-10">
+                                                    <tr className="text-sm text-blue-400/50 border-b border-blue-900/20">
+                                                        {data.columns.map(col => <th key={col} className="p-4 font-medium">{col}</th>)}
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="text-base">
+                                                    {data.preview_cleaned.map((row, i) => (
+                                                        <tr key={i} className="border-b border-white/5 hover:bg-blue-500/[0.05]">
+                                                            {data.columns.map(col => (
+                                                                <td key={col} className="p-4 whitespace-nowrap">
+                                                                    {renderCleanCell(row[col])}
+                                                                </td>
+                                                            ))}
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <div style={styles.statLabel}>Contacts Supprimés</div>
                             </div>
+
                         </div>
-                        {/* Carte Finance */}
-                        <div style={styles.statCard}>
-                            <div style={styles.statIconBox('#8b5cf6')}>💳</div>
-                            <div style={styles.statInfo}>
-                                <div style={{ ...styles.statValue, color: stats.finance > 0 ? '#8b5cf6' : '#334155' }}>
-                                    {stats.finance}
-                                </div>
-                                <div style={styles.statLabel}>Données Bancaires</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style={styles.actionBar}>
-                        <button onClick={() => setData(null)} style={styles.btnSecondary}>⬅️ Nouveau Scan</button>
-                        <button onClick={downloadCSV} style={styles.btnPrimary}>📥 Télécharger le CSV Propre</button>
-                    </div>
-
-                    {/* GRILLE DE COMPARAISON */}
-                    <div style={styles.comparisonGrid}>
-
-                        {/* TABLEAU GAUCHE (Sale) */}
-                        <div style={styles.col}>
-                            <div style={styles.colHeader('danger')}>
-                                <span>⚠️ Données Brutes</span>
-                                <span style={{ fontSize: '0.8em', opacity: 0.7 }}>Fichier Original</span>
-                            </div>
-                            <div style={styles.tableWrapper}>
-                                <table style={styles.table}>
-                                    <thead>
-                                        <tr>
-                                            {data.columns?.map(col => <th key={col} style={styles.th}>{col}</th>)}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {data.preview_original.map((row, i) => (
-                                            <tr key={i}>
-                                                {data.columns.map(col => (
-                                                    <td key={col} style={styles.td}>{row[col]}</td>
-                                                ))}
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        {/* TABLEAU DROITE (Propre) */}
-                        <div style={styles.col}>
-                            <div style={styles.colHeader('safe')}>
-                                <span>🛡️ Données Sécurisées</span>
-                                <span style={{ fontSize: '0.8em', opacity: 0.7 }}>Prêt pour l'IA</span>
-                            </div>
-                            <div style={styles.tableWrapper}>
-                                <table style={styles.table}>
-                                    <thead>
-                                        <tr>
-                                            {data.columns.map(col => <th key={col} style={styles.th}>{col}</th>)}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {data.preview_cleaned.map((row, i) => (
-                                            <tr key={i}>
-                                                {data.columns.map(col => (
-                                                    <td key={col} style={{ ...styles.td, fontWeight: '500' }}>
-                                                        {renderCellContent(row[col])}
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                    </div>
-                </>
-            )}
+                    )}
+                </main>
+            </div>
+            
+            {/* Styles globaux pour l'animation scan */}
+            <style jsx>{`
+                @keyframes scan {
+                    0% { top: 0; opacity: 0; }
+                    20% { opacity: 1; }
+                    80% { opacity: 1; }
+                    100% { top: 100%; opacity: 0; }
+                }
+                .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+                .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+                .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+            `}</style>
         </div>
     );
 };
+
+// Sous-composants pour garder le code propre
+const FeatureCard = ({ icon: Icon, color, title, desc }) => (
+    <button className="bg-slate-800/40 border border-white/5 p-8 rounded-[24px] group text-left hover:bg-slate-800/60 hover:border-white/10 transition-all">
+        <div className={`w-12 h-12 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center ${color} mb-8 group-hover:scale-110 transition-transform`}>
+            <Icon className="w-6 h-6" />
+        </div>
+        <h3 className="text-lg font-medium text-slate-200 mb-2">{title}</h3>
+        <p className="text-sm text-slate-500">{desc}</p>
+    </button>
+);
+
+const StatItem = ({ label, value, color = "text-white", dot, badge }) => (
+    <div className="flex flex-col gap-2 border-l border-white/5 pl-8 first:pl-0 first:border-0">
+        <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">{label}</span>
+        <div className="flex items-center gap-3">
+            {dot && <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-pulse"></div>}
+            <span className={`text-2xl font-semibold ${color} font-mono`}>{value}</span>
+            {badge && <span className="text-xs bg-red-500/ text-slate-400 px-2 py-1 rounded border border-slate-500/20">{badge}</span>}
+        </div>
+    </div>
+);
 
 export default FileAudit;

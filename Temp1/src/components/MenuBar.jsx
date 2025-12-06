@@ -71,9 +71,9 @@ export default function MenuBar() {
     <div ref={containerRef} className="relative min-h-screen bg-gray-50 text-neutral-900 font-sans overflow-x-hidden">
 
       <header className="fixed top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-50 mix-blend-exclusion text-white">
-        <div className="text-xl font-bold tracking-tighter flex items-center gap-3">
-          <div className="w-3 h-3 bg-white rounded-full"></div>
-          FURROW
+        <div className="text-xl tracking-tighter flex items-center gap-3">
+          <div className="w-3 h-3 bg-white rounded-full special-font"></div>
+          <h1 className='special-font font-vogue text-5xl'><b>OUTSIDERS</b></h1>
         </div>
         <button
           onClick={() => setIsMenuOpen(v => !v)}
@@ -111,8 +111,8 @@ export default function MenuBar() {
                       {item.sub}
                     </span>
                     <h2 className={`text-8xl md:text-9xl lg:text-[11rem] font-black uppercase leading-none transition-all duration-500 ${hoveredIndex !== null && hoveredIndex !== i
-                        ? "opacity-20 blur-sm"
-                        : "opacity-100 blur-0"
+                      ? "opacity-20 blur-sm"
+                      : "opacity-100 blur-0"
                       }`}>
                       {item.label}
                     </h2>
@@ -154,47 +154,6 @@ export default function MenuBar() {
           <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent pointer-events-none" />
         </div>
       </div>
-
-      <main className="pt-32 px-6 md:px-10 max-w-7xl mx-auto z-0">
-        <h1 className="text-6xl md:text-9xl font-black mb-12 tracking-tighter leading-[0.85]">
-          DIGITAL<br />
-          EXPERIENCE<br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">DESIGNER</span>
-        </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-          <div className="text-lg md:text-xl leading-relaxed opacity-80">
-            <p>
-              Une réinterprétation moderne de la navigation classique des agences Awwwards.
-              L'animation utilise React pour la structure et GSAP pour la performance fluide à 60fps.
-              Notez l'effet de "rideau" (Clip-path) et le décalage (Stagger) des textes.
-            </p>
-          </div>
-          <div className="flex flex-col gap-6">
-            <div className="h-64 w-full bg-gray-300 rounded-lg overflow-hidden relative group cursor-pointer">
-              <img
-                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
-                alt="Abstract Art"
-                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <ArrowUpRight className="text-white w-12 h-12" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <section className="border-t border-black/10 pt-10">
-          <div className="flex justify-between items-center text-xs uppercase tracking-widest opacity-50">
-            <span>Scroll Down</span>
-            <span>( 2024 - 2025 )</span>
-          </div>
-        </section>
-      </main>
-
-      {/* Background Decor */}
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-purple-300/30 to-blue-300/30 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-
     </div>
   );
 }

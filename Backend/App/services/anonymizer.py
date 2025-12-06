@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel # <--- NOUVEAU : Nécessaire pour recevoir du texte JSON
 import pandas as pd
 import io
 import spacy
@@ -10,7 +11,6 @@ from presidio_anonymizer.entities import OperatorConfig
 # --- 1. CONFIGURATION DE L'APP & CORS ---
 app = FastAPI()
 
-# IMPORTANT : Autoriser React à parler au Python
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,26 +19,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- 2. CONFIGURATION DU MOTEUR NLP (Ton code) ---
+# --- 2. CONFIGURATION DU MOTEUR NLP ---
 try:
-    # Essaye de charger le modèle Large (plus précis)
     import en_core_web_lg
     nlp_engine = en_core_web_lg.load()
     print("✅ Modèle Large (en_core_web_lg) chargé avec succès.")
 except ImportError:
     print("⚠️ Modèle Large non trouvé, utilisation du modèle standard.")
 
-# Initialisation des moteurs Presidio
 analyzer = AnalyzerEngine()
 anonymizer = AnonymizerEngine()
 
-# --- 3. TA FONCTION D'ANONYMISATION OPTIMISÉE ---
+# --- 3. MODELE DE DONNÉES POUR LE TEXTE (### NOUVEAU ###) ---
+class TextInput(BaseModel):
+    text: str
+
+# --- 4. FONCTION D'ANONYMISATION ---
 def anonymiser_texte(texte_brut):
-    """
-    Nettoie le texte en remplaçant les données sensibles par des TAGS VISUELS clairs.
-    """
     if not isinstance(texte_brut, str) or len(texte_brut) < 2:
-        return texte_brut, []
+        return texte_brut
 
     # A. DÉTECTION
     resultats_analyse = analyzer.analyze(
@@ -50,7 +49,7 @@ def anonymiser_texte(texte_brut):
         ]
     )
 
-    # B. REMPLACEMENT VISUEL (C'est ici que la magie opère pour le Front)
+    # B. REMPLACEMENT VISUEL
     operators_config = {
         "PERSON": OperatorConfig("replace", {"new_value": " [👤 NOM] "}),
         "PHONE_NUMBER": OperatorConfig("replace", {"new_value": " [📞 TÉL] "}),
@@ -70,55 +69,5 @@ def anonymiser_texte(texte_brut):
         operators=operators_config
     )
 
-
     return resultat_anonymise.text
 
-# --- 4. ENDPOINT POUR FICHIER CSV (Celui appelé par React) ---
-@app.post("/clean-file")
-async def clean_file_endpoint(file: UploadFile = File(...)):
-    try:
-        # 1. Lire le fichier CSV
-        contents = await file.read()
-        
-        # --- CORRECTION ICI ---
-        # On décode en ignorant les erreurs ou en essayant de forcer l'utf-8 proprement
-        try:
-            string_content = contents.decode('utf-8')
-        except UnicodeDecodeError:
-            # Si ça plante (ex: fichier venant d'un vieux Windows), on tente latin-1
-            string_content = contents.decode('latin-1')
-
-        df = pd.read_csv(io.StringIO(string_content)) 
-        
-        # Copie pour "Avant" (remplacer les vides par "")
-        preview_original = df.head(10).fillna("").to_dict(orient='records')
-
-        # 2. Appliquer TA fonction sur chaque cellule
-        def clean_cell(cell_value):
-            if isinstance(cell_value, str):
-                # On appelle ta fonction optimisée
-                return anonymiser_texte(cell_value)
-            return cell_value
-
-        # On applique sur tout le tableau
-        df_cleaned = df.applymap(clean_cell)
-        
-        # Copie pour "Après"
-        preview_cleaned = df_cleaned.head(10).fillna("").to_dict(orient='records')
-
-        # 3. Renvoyer au React
-        return {
-            "filename": file.filename,
-            "total_rows": len(df),
-            "columns": list(df.columns),
-            "preview_original": preview_original,
-            "preview_cleaned": preview_cleaned # C'est ça qui contient les [👤 NOM]
-        }
-    except Exception as e:
-        print(f"Erreur: {str(e)}")
-        return {"error": str(e)}
-
-# --- 5. LANCEMENT ---
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

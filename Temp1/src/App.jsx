@@ -1,6 +1,5 @@
 import React from 'react'
 import Hero from './components/Hero'
-import Section from './components/Section'
 import NavBar from './components/NavBar'
 import Features from './components/Features'
 import Story from './components/Story'
@@ -15,11 +14,14 @@ import Cards from './components/Cards'
 import ParallaxGallery from './components/ParallaxGalery'
 import FileAudit from './Pages/FilesAudit'
 import Hallucination from './Pages/Hallucination'
+import Dashboard from './components/chat/Dashboard'
+import Section from './components/Section'
 
 const App = () => {
   return (
     <main className="relative min-h-screen w-screen overflow-hidden">
-{/*       <Hero />
+      {/*       <Hero />
+      <Section/>
       <SectionHorizontal />
       <ParallaxGallery />
       <Features />
@@ -29,6 +31,9 @@ const App = () => {
       <Footer />  
       <FileAudit/> */}
       <Hallucination/>
+      <Footer />
+
+      <FileAudit />
     </main>
   )
 }
