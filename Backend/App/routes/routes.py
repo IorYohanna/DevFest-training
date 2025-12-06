@@ -2,6 +2,17 @@
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from fastapi import APIRouter, HTTPException,UploadFile,File
+from controllers.detoxify_controller import DetoxifyController
+from schemas.requests import TextAnalysisRequest, BatchAnalysisRequest
+from schemas.responses import (
+    ToxicityAnalysis,
+    BatchAnalysisResponse,
+    FilterResponse,
+    BatchFilterResponse,
+    StatsResponse,
+    HealthResponse
+)
 
 # Import conditionnel pour Detoxify (si disponible)
 try:

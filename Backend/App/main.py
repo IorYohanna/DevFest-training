@@ -10,6 +10,8 @@ from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
 from routes import hallucination_router , router
+from routes.routes import router
+from routes.ChatRoute import chat_route
 
 app = FastAPI(
     title="Detoxify API",
@@ -98,6 +100,7 @@ def anonymiser_texte(texte_brut):
     return resultat_anonymise.text
 
 # --- 3. ENDPOINTS ---
+app.include_router(chat_route)
 
 @app.get("/")
 def root():
