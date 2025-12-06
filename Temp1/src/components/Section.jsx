@@ -1,12 +1,14 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
+import ScrollingTextSection3 from "./TypeTicker";
 import ScrollingTextSection from "./TypeTicker";
 
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Section = () => {
+const Section
+ = () => {
 
     useGSAP(() => {
         const clipAnimation = gsap.timeline({ //define more precisely the scroll trigger
@@ -46,19 +48,20 @@ const Section = () => {
                         <span className="w-full h-full bg-black/20 absolute z-1"></span>
                     </div>
                     
-                    <ScrollingTextSection/>
+                    <ScrollingTextSection
+                    />
                 </div>
                 
                 <div className="mask-clip-path about-image overflow-hidden">
                     <img
-                    src="img/temp-test/bananaBg.jpg"
+                    src="img/devfest.jpg"
                     alt="Background"
                     className="absolute w-full object-cover top-[-40%]"
                     />
 
                     <div class="absolute top-2/4 left-2/3 transform -translate-x-1/2 -translate-y-1/2 text-center">
-                        <h1 class="text-9xl font-bold font-classyvogue">Une Banane</h1>
-                        <p class=" text-3xl font-newyork">A votre portée de main</p>
+                        <h1 class="text-9xl font-bold font-classyvogue">DevFest 2025</h1>
+                        <p class=" text-3xl font-newyork">GDG Antananarivo</p>
                     </div>
                 </div>              
             </div> 

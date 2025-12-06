@@ -13,6 +13,24 @@ body {
 
 @layer base {
   @font-face {
+    font-family: "transformers";
+    src: url("/fonts/Transformers.ttf") format("truetype");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "batman";
+    src: url("/fonts/batman.ttf") format("truetype");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "bitsumis";
+    src: url("/fonts/BITSUMIS.ttf") format("truetype");
+    font-display: swap;
+  }
+
+  @font-face {
     font-family: "circular-web";
     src: url("/fonts/circularweb-book.woff2") format("woff2");
     font-display: swap;
@@ -152,7 +170,7 @@ body {
   }
 
   .hero-heading {
-    @apply uppercase font-zentry font-black text-5xl sm:right-10 sm:text-7xl md:text-9xl lg:text-[12rem];
+    @apply uppercase font-zentry font-black text-[8rem];
   }
 
   .nav-name-up {

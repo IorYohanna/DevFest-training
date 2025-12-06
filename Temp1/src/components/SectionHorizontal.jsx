@@ -4,34 +4,37 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Données des sections
+// Données des sections mises à jour basées sur le PDF AlgoMada
 const SECTIONS = [
   {
     id: 1,
-    title: "Le Café Noir",
-    subtitle: "ÉNERGIE BRUTE",
-    description: "Une torréfaction sombre pour les âmes éveillées.",
-    bg: "bg-[#1a1a1a]",
-    accent: "text-[#C69C6D]",
-    image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=1000"
+    title: "L'Ère de l'IA",
+    subtitle: "CONTEXTE GLOBAL",
+    description: "L'IA est partout. Puissante mais imparfaite, son adoption est sans précédent. Elle ne reviendra pas en arrière et redéfinit notre navigation dans le monde numérique.",
+    bg: "bg-[#0B1120]", // Bleu nuit très sombre
+    accent: "text-[#38BDF8]", // Bleu Cyan électrique
+    // Image : Réseau de neurones abstrait / Connexions
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=1000"
   },
   {
     id: 2,
-    title: "Matcha Zen",
-    subtitle: "HARMONIE PURE",
-    description: "L'équilibre parfait entre la terre et l'esprit.",
-    bg: "bg-[#2D3A28]",
-    accent: "text-[#B7D1A5]",
-    image: "https://images.unsplash.com/photo-1582793988951-9aed5509eb97?auto=format&fit=crop&q=80&w=1000"
+    title: "Notre Mission",
+    subtitle: "SAFE AI FOR MANKIND",
+    description: "Face aux 'bad actors', c'est à nous, experts tech, de guider cette puissance. Orientez l'IA vers une direction RESPONSABLE et SÛRE pour le bien de l'humanité.",
+    bg: "bg-[#064E3B]", // Vert sombre (Matrice/Sécurité)
+    accent: "text-[#34D399]", // Vert émeraude néon
+    // Image : Main humaine vs Technologie / Protection
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000"
   },
   {
     id: 3,
-    title: "Cacao Sacré",
-    subtitle: "DOUCEUR ÉPICÉE",
-    description: "Une caresse veloutée aux notes de cannelle.",
-    bg: "bg-[#3E2723]",
-    accent: "text-[#FFAB91]",
-    image: "https://images.unsplash.com/photo-1540337706094-da10342abe55?auto=format&fit=crop&q=80&w=1000"
+    title: "Le Challenge",
+    subtitle: "INGÉNIERIE LOGICIELLE",
+    description: "Identifiez un risque. Codez une solution. Critères : Originalité, Criticité, Efficacité, UX et Extensibilité. Prouvez que le code peut résoudre les problèmes de l'IA.",
+    bg: "bg-[#312E81]", // Violet/Indigo profond
+    accent: "text-[#A78BFA]", // Violet clair lumineux
+    // Image : Code / Développement / Futur
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000"
   }
 ];
 
@@ -185,7 +188,8 @@ function SectionHorizontal() {
             className={`section-${index} relative h-screen w-screen flex items-center justify-center ${section.bg} overflow-hidden`}
           >
             
-            <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay">
+            {/* Image de fond (Overlay) légèrement moins opaque pour le thème sombre */}
+            <div className="absolute inset-0 opacity-30 pointer-events-none mix-blend-overlay">
                <img 
                  src={section.image} 
                  alt={section.title} 
@@ -200,34 +204,37 @@ function SectionHorizontal() {
                   {section.subtitle}
                 </div>
 
-                <h2 className="text-7xl md:text-9xl font-black text-white leading-[0.9] overflow-hidden">
+                <h2 className="text-7xl font-black text-white leading-[0.9] overflow-hidden">
                   <div className={`title-${index} flex flex-wrap perspective-text`}>
                     {splitText(section.title)}
                   </div>
                 </h2>
 
-                <p className={`desc-${index} text-gray-400 text-xl max-w-md mt-8 border-l-2 border-white/20 pl-6`}>
+                <p className={`desc-${index} text-gray-300 text-xl max-w-md mt-8 border-l-2 border-white/20 pl-6`}>
                   {section.description}
                 </p>
                 
                 <button className={`button-${index} mt-8 px-8 py-3 border border-white/30 rounded-full text-white uppercase text-xs tracking-widest hover:bg-white hover:text-black transition-all duration-300`}>
-                  Découvrir
+                  En savoir plus
                 </button>
               </div>
 
               <div className="hidden md:flex justify-center items-center">
-                <div className={`w-[400px] h-[500px] rounded-full border border-white/10 backdrop-blur-sm relative overflow-hidden img-wrapper-${index}`}>
+                {/* Cadre de l'image plus "Tech" (carré arrondi ou cercle selon préférence, ici cercle gardé mais avec bordure brillante) */}
+                <div className={`w-[400px] h-[500px] rounded-[2rem] border border-white/10 backdrop-blur-sm relative overflow-hidden img-wrapper-${index} shadow-2xl shadow-black/50`}>
                    <img 
                      src={section.image} 
                      alt="" 
                      className={`img-${index} w-full h-full object-cover`} 
                    />
+                   {/* Overlay de scan line pour l'effet tech */}
+                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent opacity-50 pointer-events-none"></div>
                 </div>
               </div>
 
             </div>
 
-            <div className="absolute -bottom-20 -right-20 text-[20rem] font-bold text-white opacity-5 select-none pointer-events-none">
+            <div className="absolute -bottom-20 -right-20 text-[20rem] font-bold text-white opacity-5 select-none pointer-events-none font-mono">
               0{index + 1}
             </div>
 

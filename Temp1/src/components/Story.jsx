@@ -9,6 +9,7 @@ const Story = () => {
     const frameRef = useRef(null)
 
     const handleMouseLeave = () => {
+        // eslint-disable-next-line no-undef
         gsap.to (element, {
             duration:0.3,
             rotateX: 0,

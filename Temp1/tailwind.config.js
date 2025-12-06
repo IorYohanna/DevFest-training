@@ -15,6 +15,9 @@ export default {
         sagita: ["sagita", "sans-serif"],
         lamoric: ["lamoric", "sans-serif"],
         cream: ["cream", "sans-serif"],
+        transformers : [ "transformers", "sans-serif"],
+        bitsumis : [ "bitsumis", "sans-serif"],
+        batman : [ "batman", "sans-serif"],
       },
 
       colors: {

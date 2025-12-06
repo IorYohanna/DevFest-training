@@ -3,7 +3,7 @@ import gsap from "gsap";
 
 const Row = ({ words, direction = "left", speed = 15, className = "" }) => {
   const rowRef = useRef(null);
-  const fontChoice = direction === "left" ? "font-lamoric" : "font-robert-medium"
+  const fontChoice = direction === "left" ? "font-transformers" : "font-bitsumis"
 
   useEffect(() => {
     const container = rowRef.current;
@@ -48,10 +48,10 @@ const Row = ({ words, direction = "left", speed = 15, className = "" }) => {
 
 const ScrollingTextSection = () => {
   // Liste pour le HAUT (Défile vers la DROITE)
-  const topList = ["Une", "Une", "Une", "Une", "Une", "Une"];
+  const topList = ["Neoshore", "42", "Vivetic", "Stelarix", "Oc-tet", "RELIA", "YF"];
 
   // Liste pour le BAS (Défile vers la GAUCHE)
-  const bottomList = ["Banane", "Banane", "Banane", "Banane", "Banane", "Banane", "Banane"];
+  const bottomList = ["Axian", "NextA", "AlgoMada", "Bocasay", "Yas"];
 
   return (
     <div className="absolute top-1/3 w-full ">
