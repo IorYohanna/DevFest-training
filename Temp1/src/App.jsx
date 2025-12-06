@@ -22,22 +22,21 @@ import Instagram from './components/instagram/Instagram'
 const App = () => {
   return (
     <main className="relative min-h-screen w-screen overflow-hidden">
-      {/* <Hero />
-      <Section/> */}
+      <Hero />
+      <Section />
       <SectionHorizontal />
       <ParallaxGallery /> 
       {/* <Features />
       <Story />
       <Contact />
       <MenuBar />
-      <Footer />   */}
-      {/* <FileAudit/>  */}
-      {/* <Hallucination/> */}
-      {/* <Footer /> */}
+      <Footer />
+      <Hallucination />
 
-      {/* <FileAudit /> */}
-      {/* <Detoxify/> */}
-      {/* <Instagram/> */}
+
+      {/*       <Detoxify/>
+      <Instagram/>           <FileAudit />*/}
+
     </main>
   )
 }

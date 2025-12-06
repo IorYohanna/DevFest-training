@@ -5,6 +5,7 @@ import pandas as pd
 import io
 import spacy
 from presidio_analyzer import AnalyzerEngine
+from presidio_analyzer.nlp_engine import NlpEngineProvider # Important pour le français
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
@@ -27,54 +28,94 @@ app.add_middleware(
 app.include_router(hallucination_router)
 app.include_router(router)
 
+# --- 1. CONFIGURATION DU MOTEUR NLP (FRANÇAIS) ---
 try:
-    analyzer = AnalyzerEngine() 
-    anonymizer = AnonymizerEngine()
-    print("✅ Moteur IA chargé avec succès.")
-except Exception as e:
-    print(f"⚠️ Erreur chargement IA: {e}")
+    import fr_core_news_lg
+    print("✅ Modèle Spacy Français détecté.")
+    
+    # On configure Presidio pour utiliser le modèle Français
+    configuration = {
+        "nlp_engine_name": "spacy",
+        "models": [{"lang_code": "fr", "model_name": "fr_core_news_lg"}]
+    }
+    
+    provider = NlpEngineProvider(nlp_configuration=configuration)
+    nlp_engine_with_french = provider.create_engine()
+    
+    # On force la langue 'fr'
+    analyzer = AnalyzerEngine(nlp_engine=nlp_engine_with_french, supported_languages=["fr"])
+    print("✅ Presidio configuré en FRANÇAIS (Emojis activés).")
 
-def anonymiser_texte(texte_brut):
-    """
-    Fonction centrale qui prend un texte et renvoie le texte propre + stats.
-    """
-    if not isinstance(texte_brut, str) or len(texte_brut) < 2:
-        return texte_brut, []
-    results = analyzer.analyze(
-        text=texte_brut, 
-        language='en',
-        entities=["PERSON", "PHONE_NUMBER", "EMAIL_ADDRESS", "URL", "CREDIT_CARD", "IBAN"]
-    )
+except ImportError:
+    print("⚠️ ERREUR : Modèle 'fr_core_news_lg' introuvable.")
+    print("👉 Fais: python -m spacy download fr_core_news_lg")
+    analyzer = AnalyzerEngine() # Fallback anglais
 
-    anonymized_result = anonymizer.anonymize(
-        text=texte_brut,
-        analyzer_results=results,
-        operators={
-            "PERSON": OperatorConfig("replace", {"new_value": "<PERSON>"}),
-            "PHONE_NUMBER": OperatorConfig("replace", {"new_value": "<PHONE>"}),
-            "EMAIL_ADDRESS": OperatorConfig("replace", {"new_value": "<EMAIL>"}),
-            "DEFAULT": OperatorConfig("replace", {"new_value": "<SENSITIVE>"}),
-        }
-    )
-
-    stats = []
-    for item in results:
-        stats.append({
-            "type": item.entity_type,
-            "score": round(item.score, 2),
-            "start": item.start,
-            "end": item.end
-        })
-
-    return anonymized_result.text, stats
+anonymizer = AnonymizerEngine()
 
 class TextRequest(BaseModel):
     text: str
 
+# --- 2. FONCTION D'ANONYMISATION (VERSION EMOJIS) ---
+def anonymiser_texte(texte_brut):
+    """
+    Prend un texte et renvoie UNIQUEMENT le texte nettoyé (String).
+    """
+    if not isinstance(texte_brut, str) or len(texte_brut) < 2:
+        return texte_brut
+
+    # Analyse en Français
+    resultats_analyse = analyzer.analyze(
+        text=texte_brut, 
+        language='fr',
+        entities=[
+            "PERSON", "PHONE_NUMBER", "EMAIL_ADDRESS", "URL", 
+            "CREDIT_CARD", "IBAN", "LOCATION", "NRP"
+        ]
+    )
+
+    # Configuration des Emojis
+    operators_config = {
+        "PERSON": OperatorConfig("replace", {"new_value": " [👤 NOM] "}),
+        "PHONE_NUMBER": OperatorConfig("replace", {"new_value": " [📞 TÉL] "}),
+        "EMAIL_ADDRESS": OperatorConfig("replace", {"new_value": " [📧 EMAIL] "}),
+        "URL": OperatorConfig("replace", {"new_value": " [🔗 LIEN] "}),
+        "CREDIT_CARD": OperatorConfig("replace", {"new_value": " [💳 CB] "}),
+        "IBAN": OperatorConfig("replace", {"new_value": " [🏦 IBAN] "}),
+        "LOCATION": OperatorConfig("replace", {"new_value": " [📍 LIEU] "}),
+        "NRP": OperatorConfig("replace", {"new_value": " [⚖️ SENSIBLE] "}),
+        "DEFAULT": OperatorConfig("replace", {"new_value": " [🔒 DONNÉE] "}),
+    }
+
+    resultat_anonymise = anonymizer.anonymize(
+        text=texte_brut,
+        analyzer_results=resultats_analyse,
+        operators=operators_config
+    )
+
+    # IMPORTANT : On ne renvoie QUE le texte pour simplifier le CSV et le Front
+    # Le Front React calcule les stats tout seul en comptant les emojis.
+    return resultat_anonymise.text
+
+# --- 3. ENDPOINTS ---
 
 @app.get("/")
 def root():
     return {"status": "Online", "message": "SafeAI API is running 🚀"}
+
+@app.post("/clean-text")
+async def clean_text_endpoint(input_data: TextRequest):
+    try:
+        # On récupère juste le texte nettoyé
+        cleaned_text = anonymiser_texte(input_data.text)
+        
+        return {
+            "original": input_data.text,
+            "cleaned": cleaned_text 
+            # Plus besoin de renvoyer 'stats' ici, le Front React s'en charge
+        }
+    except Exception as e:
+        return {"error": str(e)}
 
 @app.post("/clean-file")
 async def clean_file_endpoint(file: UploadFile = File(...)):
@@ -88,12 +129,15 @@ async def clean_file_endpoint(file: UploadFile = File(...)):
         df = pd.read_csv(io.StringIO(string_content)) 
         preview_original = df.head(10).fillna("").to_dict(orient='records')
 
+        # Fonction wrapper pour appliquer sur chaque cellule
         def clean_cell(cell_value):
             if isinstance(cell_value, str):
                 return anonymiser_texte(cell_value)
             return cell_value
 
+        # Appliquer sur tout le tableau
         df_cleaned = df.applymap(clean_cell)
+        
         preview_cleaned = df_cleaned.head(10).fillna("").to_dict(orient='records')
 
         return {
@@ -107,23 +151,7 @@ async def clean_file_endpoint(file: UploadFile = File(...)):
         print(f"Erreur: {str(e)}")
         return {"error": str(e)}
 
-@app.post("/clean-text")
-async def clean_text_endpoint(input_data: TextRequest):
-    """
-    Reçoit un JSON { "text": "..." } et renvoie le texte nettoyé.
-    """
-    try:
-        cleaned_text, stats = anonymiser_texte(input_data.text)
-        return {
-            "original": input_data.text,
-            "cleaned": cleaned_text,
-            "stats": stats
-        }
-    except Exception as e:
-        return {"error": str(e)}
-
-
-# --- 7. LANCEMENT ---
+# --- 4. LANCEMENT ---
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
