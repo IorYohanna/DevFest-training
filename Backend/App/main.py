@@ -8,7 +8,7 @@ from presidio_analyzer import AnalyzerEngine
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
-from routes import hallucination_router 
+from routes import hallucination_router , router
 
 app = FastAPI(
     title="Detoxify API",
@@ -25,6 +25,7 @@ app.add_middleware(
 )
 
 app.include_router(hallucination_router)
+app.include_router(router)
 
 try:
     analyzer = AnalyzerEngine() 

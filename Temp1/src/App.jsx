@@ -16,6 +16,8 @@ import FileAudit from './Pages/FilesAudit'
 import Hallucination from './Pages/Hallucination'
 import Dashboard from './components/chat/Dashboard'
 import Section from './components/Section'
+import Detoxify from './components/detoxify/Detoxify'
+import Instagram from './components/instagram/Instagram'
 
 const App = () => {
   return (
@@ -30,10 +32,12 @@ const App = () => {
       <MenuBar />
       <Footer />  
       <FileAudit/> */}
-      <Hallucination/>
+      {/* <Hallucination/> */}
       {/* <Footer /> */}
 
       {/* <FileAudit /> */}
+      {/* <Detoxify/> */}
+      <Instagram/>
     </main>
   )
 }
