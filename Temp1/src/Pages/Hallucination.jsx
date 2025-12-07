@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-// Icons
+// --- ICONS ---
 const Icons = {
   Brain: (props) => (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.97-3.465"/><path d="M20 14.535A4 4 0 0 1 18 18"/></svg>
@@ -23,50 +23,77 @@ const Icons = {
   Activity: (props) => (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
   ),
-  ChevronRight: (props) => (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-  ),
-  Check: (props) => (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-  ),
-  Terminal: (props) => (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>
+  ArrowUp: (props) => (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
   ),
   Plus: (props) => (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
   ),
-  Paperclip: (props) => (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+  Gallery: (props) => (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
   ),
-  Mic: (props) => (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+  FileText: (props) => (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
   ),
-  ArrowUp: (props) => (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+  More: (props) => (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+  ),
+  Check: (props) => (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
   )
 };
 
-// Status badge
-const StatusBadge = ({ step, currentStep, label }) => {
-  const isActive = currentStep === step;
-  const isDone = currentStep > step;
-  return (
-    <div className={`flex items-center gap-2 transition-opacity duration-300 ${currentStep >= step ? "opacity-100" : "opacity-30"}`}>
-      <div className={`w-2 h-2 rounded-full ${isActive ? "bg-indigo-500 animate-pulse" : isDone ? "bg-emerald-500" : "bg-zinc-700"}`}></div>
-      <span className="text-xs font-mono tracking-wider uppercase">{label}</span>
+// --- COMPONENTS ---
+// Changement ici : Fond ardoise (slate) au lieu de marron
+const GlassCard = ({ children, className = "" }) => (
+  <div className={`relative bg-slate-900/40 backdrop-blur-2xl border border-white/5 shadow-2xl overflow-hidden ${className}`}>
+    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+    <div className="relative z-10 h-full">
+      {children}
     </div>
+  </div>
+);
+
+const Badge = ({ type }) => {
+  const styles = {
+    verified: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    warning: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+    danger: "bg-red-500/10 text-red-400 border-red-500/20",
+  };
+  
+  let currentStyle = styles.verified;
+  let text = "VÉRIFIÉ";
+  let Icon = Icons.ShieldCheck;
+
+  if (type >= 0.8) { 
+    currentStyle = styles.verified; 
+    text = "VÉRIFIÉ"; 
+    Icon = Icons.ShieldCheck; 
+  } else if (type > 0) { 
+    currentStyle = styles.warning; 
+    text = "CORRIGÉ"; 
+    Icon = Icons.ShieldAlert; 
+  } else { 
+    currentStyle = styles.danger; 
+    text = "HALLUCINATION"; 
+    Icon = Icons.ShieldAlert; 
+  }
+
+  return (
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border ${currentStyle}`}>
+      <Icon className="w-3 h-3" /> {text}
+    </span>
   );
 };
 
-// Main Component
-export default function HallucinationBuster() {
+// --- MAIN APP ---
+export default function HallucinationBusterFusion() {
   const [userInput, setUserInput] = useState("");
   const [loadingStep, setLoadingStep] = useState(0);
   const [result, setResult] = useState(null);
-  const [activeTab, setActiveTab] = useState("synthesis");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState(null);
-  const [isFocused, setIsFocused] = useState(false);
+  const [activeTab, setActiveTab] = useState("synthesis");
 
   const API = {
     base: "http://localhost:8000",
@@ -81,6 +108,11 @@ export default function HallucinationBuster() {
       setLoadingStep(1);
       await wait(600);
       setLoadingStep(2);
+
+      // Simulation de l'appel pour l'exemple visuel si pas de backend
+      // const res = await fetch(API.base + API.endpoint, ...); 
+      // Si vous testez sans backend, décommentez la ligne suivante pour voir le résultat :
+      // return { original_prompt: prompt, ai_analysis: { confidence_score: 0.95, corrected_text: "Ceci est un test corrigé.", rag_sources: [{validity:'correct', snippet:'Source fiable'}] } };
 
       const res = await fetch(API.base + API.endpoint, {
         method: "POST",
@@ -117,282 +149,337 @@ export default function HallucinationBuster() {
   };
 
   return (
-    <div className="text-zinc-400 min-h-screen bg-[#030304] selection:bg-indigo-500/20 selection:text-indigo-200">
-      <div className="flex flex-col items-center min-h-screen pt-20 pb-12 px-4 sm:px-6 relative overflow-hidden">
+    // Changement : Fond global Blue/Slate foncé au lieu de marron.
+    // Selection color passée de Indigo à Sky
+    <div className="min-h-screen bg-[#0f172a] text-zinc-200 p-4 md:p-6 font-sans selection:bg-sky-500/30">
+      
+      {/* Background Blobs harmonisés (Bleu et Cyan) */}
+      <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-sky-900/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+      {/* Main Grid Layout */}
+      <div className="max-w-[1600px] mx-auto h-[calc(100vh-3rem)] grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
 
-        <div className="relative z-10 text-center space-y-4 mb-12 animate-fade-in">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/50 border border-zinc-800 text-[10px] font-mono text-zinc-400 uppercase tracking-widest backdrop-blur-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            Neural System v2.1
+        {/* LEFT COLUMN: Dashboard / History */}
+        <div className="lg:col-span-4 flex flex-col gap-6 h-full">
+            
+          {/* Header Area */}
+          <div className="flex items-center justify-between px-2">
+            <div className="flex items-center gap-2 text-white font-medium text-lg tracking-tight">
+              {/* Logo : Dégradé Blanc -> Gris, ombre Sky au lieu de Indigo */}
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-white to-gray-400 flex items-center justify-center shadow-lg shadow-sky-500/20">
+                <Icons.Brain className="w-4 h-4 text-black" />
+              </div>
+              Anti-Hallucination
+            </div>
+            <button className="p-2 hover:bg-zinc-800 rounded-full transition-colors text-zinc-500">
+              <Icons.Plus className="w-5 h-5" />
+            </button>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-medium tracking-tight text-white">
-            Assurance <span className="text-indigo-400 font-serif italic">Fiabilité</span>
-          </h1>
+          {/* History Area */}
+          <div className="flex-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
+            
+            <h3 className="text-xl font-light text-zinc-100 px-1">Historique</h3>
 
-          <p className="text-sm md:text-base text-zinc-500 max-w-lg mx-auto leading-relaxed">
-            Vérification factuelle de modèles de langage via RAG et analyse différentielle sémantique.
-          </p>
+            {/* Widget 1: Big Visual Card */}
+            <GlassCard className="rounded-[32px] p-6 group cursor-pointer hover:border-white/10 transition-all bg-slate-800/40">
+              <div className="flex justify-between items-start mb-8">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-slate-950/50 rounded-full border border-slate-700/50">
+                    <Icons.Activity className="w-4 h-4 text-slate-400" />
+                  </div>
+                  <span className="text-sm font-medium text-slate-300">Dernier Scan</span>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-colors">
+                  <Icons.ArrowUp className="w-4 h-4 rotate-45" />
+                </div>
+              </div>
+              
+              {/* Visual Graphic - Changement de l'ombre portée (Blue au lieu de Purple) */}
+              <div className="relative w-full h-48 rounded-2xl bg-gradient-to-br from-white/5 via-slate-900/30 to-slate-900 overflow-hidden mb-4 border border-white/5 flex items-center justify-center">
+                <Icons.ShieldCheck className="w-20 h-20 text-sky-400/50 drop-shadow-[0_0_15px_rgba(56,189,248,0.3)]" />
+                <div className="absolute bottom-3 right-3 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full text-xs border border-white/10 text-white font-mono">
+                  +3 sources
+                </div>
+              </div>
+              
+              <div className="space-y-1">
+                <p className="text-sm text-zinc-500">Aujourd'hui • 16 Octobre</p>
+                <p className="text-zinc-300 font-medium">Vérification Factuelle #402</p>
+              </div>
+            </GlassCard>
+
+            {/* Widget 2: Yesterday List */}
+            <div className="space-y-3">
+              <h4 className="text-lg font-light text-zinc-400 px-1 mt-6">Hier</h4>
+              
+              {[
+                { title: "Rapport Financier Q3", sub: "Analyse de cohérence", icon: Icons.FileText },
+                { title: "Article Bio-Tech", sub: "Détection biais", icon: Icons.Search }
+              ].map((item, i) => (
+                <GlassCard key={i} className="rounded-[24px] p-4 flex items-center gap-4 hover:bg-white/5 transition-colors cursor-pointer border-transparent hover:border-white/5">
+                  <div className="w-10 h-10 rounded-full bg-slate-800/50 flex items-center justify-center border border-slate-700/50">
+                    <item.icon className="w-4 h-4 text-slate-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h5 className="text-sm font-medium text-zinc-200">{item.title}</h5>
+                    <p className="text-xs text-zinc-500">{item.sub}</p>
+                  </div>
+                  <button className="w-8 h-8 rounded-full border border-slate-700 flex items-center justify-center text-zinc-600 hover:text-white hover:border-zinc-600">
+                    <Icons.ArrowUp className="w-3 h-3 rotate-45" />
+                  </button>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <div className="w-full max-w-3xl relative z-10 animate-slide-up">
+        {/* RIGHT COLUMN: Active Chat / Interaction */}
+        <div className="lg:col-span-8 h-full flex flex-col">
+            {/* Changement : Fond plus neutre et foncé */}
+          <GlassCard className="h-full rounded-[40px] flex flex-col border-white/5 bg-[#1e293b]/50">
+            
+            {/* Header within Card */}
+            <div className="p-8 flex justify-between items-start">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/5">
+                  <div className="w-full h-full bg-slate-800 flex items-center justify-center text-xs text-slate-500">AI</div>
+                </div>
+                <div>
+                  <h2 className="text-2xl text-white font-light">Bonjour, <span className="font-semibold">Utilisateur</span></h2>
+                  <p className="text-zinc-500 text-sm">Prêt à vérifier la vérité ?</p>
+                </div>
+              </div>
+              <button className="p-2 text-zinc-500 hover:text-white transition-colors">
+                <Icons.More className="w-5 h-5" />
+              </button>
+            </div>
 
-          <div>
-            <div>
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Modern Input Container */}
-                <div className="relative">
-                  <div className={`relative rounded-3xl bg-[#1a1a1c] border-2 transition-all duration-300 ${
-                    isFocused ? 'border-[#e4d050a5] shadow-lg shadow-[#b0de7e44]' : 'border-zinc-800'
-                  }`}>
-                    
-                    {/* Input Field */}
-                    <input
-                      type="text"
-                      value={userInput}
-                      onChange={(e) => setUserInput(e.target.value)}
-                      onFocus={() => setIsFocused(true)}
-                      onBlur={() => setIsFocused(false)}
-                      disabled={loadingStep > 0}
-                      placeholder="Saisissez une affirmation à vérifier..."
-                      className="w-full bg-transparent text-zinc-200 text-base px-5 py-4 pr-[140px] rounded-3xl focus:outline-none placeholder-zinc-600 font-light"
-                    />
-
-                    {/* Action Buttons Row */}
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-
-                      {/* Divider */}
-                      <div className="h-6 w-px bg-zinc-800 mx-1"></div>
-
-                      {/* Submit Button */}
-                      <button
-                        type="submit"
-                        disabled={loadingStep > 0 || !userInput.trim()}
-                        className={`p-2.5 rounded-xl transition-all duration-200 ${
-                          loadingStep > 0 || !userInput.trim()
-                            ? 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-                            : 'bg-gradient-to-br from-indigo-600 to-indigo-500 text-white hover:from-indigo-500 hover:to-indigo-400 hover:scale-105 active:scale-95 shadow-lg shadow-indigo-500/30'
-                        }`}
-                        title="Analyser"
-                      >
-                        {loadingStep > 0 ? (
-                          <span className="w-4 h-4 border-2 border-zinc-500 border-t-zinc-800 rounded-full animate-spin inline-block"></span>
-                        ) : (
-                          <Icons.ArrowUp className="w-4 h-4" />
-                        )}
-                      </button>
+            {/* MAIN CONTENT SCROLLABLE */}
+            <div className="flex-1 overflow-y-auto px-8 custom-scrollbar">
+              
+              {!result && loadingStep === 0 ? (
+                /* EMPTY STATE */
+                <div className="h-full flex flex-col justify-center items-center pb-20">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl w-full">
+                    {/* Carte 1 : Teinte Bleu/Sky */}
+                    <div className="p-6 rounded-3xl bg-slate-800/30 border border-white/5 backdrop-blur-sm transform rotate-[-2deg] hover:rotate-0 transition-transform duration-300">
+                      <div className="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center mb-4"><Icons.FileText className="w-4 h-4"/></div>
+                      <h3 className="font-medium text-zinc-200 mb-2">Analyse de Document</h3>
+                      <p className="text-xs text-zinc-500 leading-relaxed">Copiez un paragraphe complexe et laissez le système identifier les incohérences factuelles.</p>
+                    </div>
+                    {/* Carte 2 : Teinte Emerald (inchangée car sémantique OK) */}
+                    <div className="p-6 rounded-3xl bg-slate-800/30 border border-white/5 backdrop-blur-sm transform rotate-[2deg] hover:rotate-0 transition-transform duration-300 mt-8 md:mt-0">
+                      <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4"><Icons.ShieldCheck className="w-4 h-4"/></div>
+                      <h3 className="font-medium text-zinc-200 mb-2">Vérification RAG</h3>
+                      <p className="text-xs text-zinc-500 leading-relaxed">Croisement des données avec des sources fiables pour garantir l'exactitude.</p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* RESULTS DISPLAY */
+                <div className="space-y-8 pb-8 animate-fade-in max-w-3xl mx-auto">
+                  
+                  {/* User Bubble */}
+                  <div className="flex gap-4 items-end flex-row-reverse">
+                    <div className="w-8 h-8 rounded-full bg-slate-600 flex-shrink-0" />
+                    <div className="bg-slate-700/80 text-zinc-100 px-5 py-3 rounded-2xl rounded-br-none max-w-[80%] text-sm leading-relaxed border border-white/5">
+                      {result ? result.original_prompt : userInput}
                     </div>
                   </div>
 
-                  {/* Character Counter */}
-                  {userInput.length > 0 && (
-                    <div className="absolute -bottom-6 right-4 text-[10px] text-zinc-600 font-mono">
-                      {userInput.length} caractères
+                  {/* Loader or Result */}
+                  {loadingStep > 0 ? (
+                    <div className="flex gap-4">
+                      {/* Changement : Gradient Blue/Sky */}
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-sky-500 to-blue-600 flex-shrink-0 flex items-center justify-center">
+                        <Icons.Sparkles className="w-4 h-4 text-white animate-pulse" />
+                      </div>
+                      <div className="flex items-center gap-3 text-zinc-400 text-sm pt-2">
+                        {/* Point bleu */}
+                        <span className="w-2 h-2 rounded-full bg-sky-500 animate-ping"/>
+                        {loadingStep === 1 && "Analyse sémantique..."}
+                        {loadingStep === 2 && "Vérification base de connaissances..."}
+                        {loadingStep === 3 && "Synthèse des résultats..."}
+                      </div>
+                    </div>
+                  ) : result && (
+                    <div className="flex gap-4 animate-slide-up">
+                      {/* Changement : Gradient Blue/Sky et ombre Sky */}
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-sky-500 to-blue-600 flex-shrink-0 flex items-center justify-center shadow-lg shadow-sky-500/20 h-fit">
+                        <Icons.Brain className="w-4 h-4 text-white" />
+                      </div>
+                      
+                      <div className="space-y-4 w-full">
+                        {/* Tabs */}
+                        <div className="flex gap-2 border-b border-white/5 pb-2">
+                          <button
+                            onClick={() => setActiveTab("synthesis")}
+                            className={`px-4 py-2 text-xs font-medium rounded-lg transition-colors ${
+                              activeTab === "synthesis" 
+                                ? "bg-white/10 text-white" 
+                                : "text-zinc-500 hover:text-zinc-300"
+                            }`}
+                          >
+                            Synthèse
+                          </button>
+                          <button
+                            onClick={() => setActiveTab("diff")}
+                            className={`px-4 py-2 text-xs font-medium rounded-lg transition-colors ${
+                              activeTab === "diff" 
+                                ? "bg-white/10 text-white" 
+                                : "text-zinc-500 hover:text-zinc-300"
+                            }`}
+                          >
+                            Différentiel
+                          </button>
+                        </div>
+
+                        {activeTab === "synthesis" ? (
+                          <>
+                            {/* Result Card */}
+                            <div className="bg-slate-900/60 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
+                              <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
+                                <Badge type={result.ai_analysis.confidence_score} />
+                                <span className="text-xs font-mono text-zinc-500">
+                                  {(result.ai_analysis.confidence_score * 100).toFixed(0)}% TRUST SCORE
+                                </span>
+                              </div>
+                              
+                              <div className="prose prose-invert prose-sm max-w-none">
+                                <p className="text-zinc-200 leading-7 text-[15px]">
+                                  {result.ai_analysis.corrected_text}
+                                </p>
+                              </div>
+
+                              <div className="mt-6 flex gap-3">
+                                <button onClick={handleCopy} className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-xs text-zinc-400 border border-white/5">
+                                  {copied ? <Icons.Check className="w-3 h-3 text-emerald-400"/> : <Icons.Copy className="w-3 h-3"/>}
+                                  {copied ? "Texte copié" : "Copier la correction"}
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Sources Cards */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              {result.ai_analysis.rag_sources.map((source, idx) => (
+                                <div key={idx} className="bg-white/[0.03] border border-white/5 rounded-xl p-4 hover:bg-white/[0.05] transition-colors">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <div className={`w-1.5 h-1.5 rounded-full ${source.validity === 'correct' ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                                    <span className="text-[10px] uppercase tracking-wider font-semibold text-zinc-500">Source {idx + 1}</span>
+                                  </div>
+                                  <p className="text-xs text-zinc-400 italic line-clamp-3">"{source.snippet}"</p>
+                                </div>
+                              ))}
+                            </div>
+                          </>
+                        ) : (
+                          /* Differential View */
+                          <div className="grid md:grid-cols-2 gap-6">
+                            <div className="space-y-3">
+                              <span className="text-[10px] uppercase font-bold text-red-400 tracking-wider bg-red-500/10 px-2 py-1 rounded w-fit">Original</span>
+                              <div className="p-4 rounded-lg bg-red-950/10 border border-red-500/10 text-red-200/50 font-mono text-sm leading-relaxed line-through decoration-red-500/40">
+                                {result.original_prompt}
+                              </div>
+                            </div>
+
+                            <div className="space-y-3">
+                              <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider bg-emerald-500/10 px-2 py-1 rounded w-fit">Correction</span>
+                              <div className="p-4 rounded-lg bg-emerald-950/10 border border-emerald-500/10 text-zinc-300 font-mono text-sm leading-relaxed">
+                                {result.ai_analysis.correction_segments ? (
+                                  result.ai_analysis.correction_segments.map((seg, idx) => (
+                                    <span
+                                      key={idx}
+                                      className={`${
+                                        seg.type === "correct" 
+                                          ? "text-emerald-300 bg-emerald-500/10 px-1 rounded mx-0.5" 
+                                          : seg.type === "incorrect" 
+                                          ? "text-red-400/50 bg-red-500/5 px-1 rounded mx-0.5 line-through decoration-red-500/30" 
+                                          : ""
+                                      }`}
+                                    >
+                                      {seg.text}
+                                    </span>
+                                  ))
+                                ) : (
+                                  result.ai_analysis.corrected_text
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Error Display */}
+                  {error && (
+                    <div className="flex gap-4">
+                      <div className="w-8 h-8 rounded-full bg-red-500/20 flex-shrink-0 flex items-center justify-center">
+                        <Icons.ShieldAlert className="w-4 h-4 text-red-400" />
+                      </div>
+                      <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4 flex-1">
+                        <p className="text-sm text-red-200 font-medium mb-1">Erreur de connexion Backend</p>
+                        <p className="text-xs text-red-300/60 font-mono">{error}</p>
+                      </div>
                     </div>
                   )}
                 </div>
-
-                {/* Loading Status */}
-                {loadingStep > 0 && (
-                  <div className="flex items-center justify-center gap-4 py-4">
-                    <StatusBadge step={1} currentStep={loadingStep} label="Scanning" />
-                    <div className="w-8 h-[1px] bg-zinc-800"></div>
-                    <StatusBadge step={2} currentStep={loadingStep} label="RAG Verify" />
-                    <div className="w-8 h-[1px] bg-zinc-800"></div>
-                    <StatusBadge step={3} currentStep={loadingStep} label="Synthesis" />
-                  </div>
-                )}
-              </form>
-
-              {error && (
-                <div className="mt-6 p-3 rounded bg-red-500/5 border border-red-500/20 flex items-start gap-3">
-                  <Icons.ShieldAlert className="w-5 h-5 text-red-400" />
-                  <div className="space-y-1">
-                    <p className="text-sm text-red-200 font-medium">Erreur de connexion Backend</p>
-                    <p className="text-xs text-red-300/60 font-mono">{error}</p>
-                  </div>
-                </div>
               )}
             </div>
-          </div>
-
-          {result && (
-            <div className="mt-8 animate-slide-up space-y-6">
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Detection Status Card */}
-                <div className={`col-span-1 md:col-span-2 p-6 rounded-xl border-2 flex items-center gap-4 transition-all ${
-                    result.ai_analysis.confidence_score >= 0.8 
-                    ? "bg-emerald-500/5 border-emerald-500/30 shadow-emerald-500/10 shadow-lg" 
-                    : result.ai_analysis.confidence_score > 0
-                    ? "bg-amber-500/5 border-amber-500/30 shadow-amber-500/10 shadow-lg"
-                    : "bg-red-500/5 border-red-500/30 shadow-red-500/10 shadow-lg"
-                }`}>
-                    <div className={`p-3 rounded-xl ${
-                    result.ai_analysis.confidence_score >= 0.8 
-                        ? "bg-emerald-500/10 text-emerald-400" 
-                        : result.ai_analysis.confidence_score > 0
-                        ? "bg-amber-500/10 text-amber-400"
-                        : "bg-red-500/10 text-red-400"
-                    }`}>
-                    {result.ai_analysis.confidence_score >= 0.8 ? (
-                        <Icons.ShieldCheck className="w-7 h-7" />
-                    ) : result.ai_analysis.confidence_score > 0 ? (
-                        <Icons.ShieldAlert className="w-7 h-7" />
-                    ) : (
-                        <Icons.ShieldAlert className="w-7 h-7" />
-                    )}
-                    </div>
-                    <div className="flex-1">
-                    <h3 className={`text-base font-semibold tracking-wide mb-2 ${
-                        result.ai_analysis.confidence_score >= 0.8 
-                        ? "text-emerald-100" 
-                        : result.ai_analysis.confidence_score > 0
-                        ? "text-amber-100"
-                        : "text-red-100"
-                    }`}>
-                        {result.ai_analysis.confidence_score >= 0.8 
-                        ? "CONTENU VÉRIFIÉ" 
-                        : result.ai_analysis.confidence_score > 0
-                        ? "VÉRIFICATION PARTIELLE"
-                        : "HALLUCINATION DÉTECTÉE"}
-                    </h3>
-                    <div className={`inline-block px-3 py-1.5 rounded-lg text-xs leading-relaxed ${
-                        result.ai_analysis.confidence_score >= 0.8 
-                        ? "bg-emerald-950/50 text-emerald-200/90 border border-emerald-800/30" 
-                        : result.ai_analysis.confidence_score > 0
-                        ? "bg-amber-950/50 text-amber-200/90 border border-amber-800/30"
-                        : "bg-red-950/50 text-red-200/90 border border-red-800/30"
-                    }`}>
-                        {result.ai_analysis.confidence_score >= 0.8 
-                        ? "L'analyse confirme la cohérence factuelle avec la base de connaissance" 
-                        : result.ai_analysis.confidence_score > 0
-                        ? "Des divergences mineures ont été identifiées et corrigées"
-                        : "L'affirmation est entièrement incorrecte selon les sources disponibles"}
-                    </div>
-                    </div>
+            {/* --- BOTTOM INPUT AREA (Floating Bar) --- */}
+                <div className="p-8 pt-4 mt-auto">
+                    <form onSubmit={handleSubmit} className="relative group z-20">
+                        {/* Glow effect behind input - Changement Indigo/Purple -> Sky/Blue */}
+                        <div className={`absolute -inset-0.5 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-1000 group-focus-within:opacity-50 ${loadingStep > 0 ? 'hidden' : ''}`}></div>
+                        
+                        <div className="relative flex items-center bg-[#0f172a] rounded-full p-2 pr-2 border border-white/10 shadow-2xl">
+                             {/* Left Actions (Attachment) */}
+                             <button type="button" className="p-3 rounded-full hover:bg-slate-800 text-slate-400 transition-colors ml-1">
+                                 <Icons.Plus className="w-5 h-5" />
+                             </button>
+                             
+                             {/* Main Input Field */}
+                             <input 
+                                type="text"
+                                value={userInput}
+                                onChange={(e) => setUserInput(e.target.value)}
+                                disabled={loadingStep > 0}
+                                placeholder="Demandez moi de vérifier une information..." 
+                                className="flex-1 bg-transparent text-sm md:text-base text-zinc-200 placeholder-slate-500 focus:outline-none px-4 py-2"
+                             />
+                             
+                             {/* Right Actions & Submit Button */}
+                             <div className="flex items-center gap-2 pr-1">
+                                 <button type="button" className="p-2 text-slate-500 hover:text-slate-300 transition-colors hidden sm:block">
+                                     <Icons.Gallery className="w-5 h-5" />
+                                 </button>
+                                 <button 
+                                    type="submit"
+                                    disabled={!userInput.trim() || loadingStep > 0}
+                                    className={`p-3 rounded-full transition-all duration-300 ${
+                                      userInput.trim() && loadingStep === 0 
+                                      ? "bg-zinc-200 text-black hover:scale-105" 
+                                      : "bg-slate-800 text-slate-600 cursor-not-allowed"
+                                    }`}
+                                 >
+                                     <Icons.ArrowUp className="w-5 h-5" />
+                                 </button>
+                             </div>
+                        </div>
+                        
+                        {/* Footer Disclaimer */}
+                        <div className="text-center mt-3">
+                             <p className="text-[10px] text-slate-600">L'IA peut faire des erreurs. Vérifiez toujours les informations importantes.</p>
+                        </div>
+                    </form>
                 </div>
 
-                {/* Confidence Score Card */}
-                <div className="col-span-1 p-6 rounded-xl border-2 border-zinc-800/50 bg-zinc-900/30 flex flex-col justify-center backdrop-blur-sm">
-                    <div className="flex justify-between items-end mb-2">
-                    <span className="text-xs text-zinc-500 uppercase tracking-wider font-semibold">Confiance</span>
-                    <span className="text-3xl font-mono font-bold text-white tabular-nums">
-                        {(result.ai_analysis.confidence_score * 100).toFixed(0)}%
-                    </span>
-                    </div>
-                    <div className="w-full bg-zinc-800/50 h-2 rounded-full overflow-hidden">
-                    <div
-                        className={`h-full rounded-full transition-all duration-1000 ease-out ${
-                        result.ai_analysis.confidence_score >= 0.8 
-                            ? "bg-gradient-to-r from-emerald-500 to-emerald-400" 
-                            : result.ai_analysis.confidence_score > 0
-                            ? "bg-gradient-to-r from-amber-500 to-amber-400"
-                            : "bg-gradient-to-r from-red-500 to-red-400"
-                        }`}
-                        style={{ width: `${Math.max(result.ai_analysis.confidence_score * 100, 5)}%` }}
-                    ></div>
-                    </div>
-                </div>
-                </div>
-
-                {/* Tabs Container */}
-                <div className="glass-panel rounded-xl overflow-hidden shadow-lg border border-white/5 bg-black/40 backdrop-blur-xl">
-                <div className="flex border-b border-white/5 bg-white/5">
-                    {[
-                    { id: "synthesis", label: "Synthèse & Correction" },
-                    { id: "diff", label: "Différentiel" }
-                    ].map((t) => (
-                    <button
-                        key={t.id}
-                        onClick={() => setActiveTab(t.id)}
-                        className={`flex-1 py-3 text-xs font-medium tracking-wide transition-colors relative ${activeTab === t.id ? "text-white bg-white/5" : "text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.02]"}`}
-                    >
-                        {t.label}
-                        {activeTab === t.id && <div className="absolute bottom-0 left-0 w-full h-[1px] bg-indigo-500 shadow-[0_-1px_6px_rgba(99,102,241,0.5)]"></div>}
-                    </button>
-                    ))}
-                </div>
-
-                <div className="p-6 md:p-8 min-h-[300px] bg-[#0c0c0e]">
-                    {activeTab === "synthesis" ? (
-                    <div className="space-y-8 animate-fade-in">
-                        <div>
-                        <div className="flex justify-between items-start mb-4">
-                            <h4 className="text-xs font-mono text-indigo-400 uppercase tracking-widest flex items-center gap-2">
-                            <Icons.Activity className="w-3 h-3" /> Résultat Corrigé
-                            </h4>
-                            <button
-                            onClick={handleCopy}
-                            className="text-xs text-zinc-500 hover:text-white flex items-center gap-1.5 transition-colors"
-                            >
-                            {copied ? <Icons.Check className="w-3 h-3 text-emerald-400" /> : <Icons.Copy className="w-3 h-3" />}
-                            {copied ? "Copié" : "Copier"}
-                            </button>
-                        </div>
-
-                        <div className="text-lg md:text-xl font-light leading-relaxed text-zinc-200">
-                            {result.ai_analysis.corrected_text}
-                        </div>
-                        </div>
-
-                        <div className="border-t border-white/5 pt-6">
-                        <h4 className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <Icons.Search className="w-3 h-3" /> Sources Consultées
-                        </h4>
-
-                        <div className="grid grid-cols-1 gap-3">
-                            {result.ai_analysis.rag_sources.map((s, i) => (
-                            <div key={i} className="group p-4 rounded-lg bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-all">
-                                <div className="flex justify-between items-start mb-2">
-                                <span className="text-sm font-medium text-zinc-300 group-hover:text-indigo-300 transition-colors">
-                                    Source #{i + 1}
-                                </span>
-                                <span className={`text-[10px] px-1.5 py-0.5 rounded border uppercase tracking-wider ${s.validity === "correct" ? "border-emerald-500/20 text-emerald-400 bg-emerald-500/5" : "border-red-500/20 text-red-400 bg-red-500/5"}`}>
-                                    {s.validity}
-                                </span>
-                                </div>
-                                <p className="text-xs text-zinc-500 font-mono leading-relaxed line-clamp-2">"{s.snippet}"</p>
-                            </div>
-                            ))}
-                        </div>
-                        </div>
-                    </div>
-                    ) : (
-                    <div className="animate-fade-in grid md:grid-cols-2 gap-8 h-full">
-                        <div className="space-y-3">
-                        <span className="text-[10px] uppercase font-bold text-red-400 tracking-wider bg-red-500/10 px-2 py-1 rounded w-fit">Original</span>
-                        <div className="p-4 rounded-lg bg-red-950/10 border border-red-500/10 text-red-200/50 font-mono text-sm leading-relaxed line-through decoration-red-500/40">
-                            {result.original_prompt}
-                        </div>
-                        </div>
-
-                        <div className="space-y-3">
-                        <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider bg-emerald-500/10 px-2 py-1 rounded w-fit">Correction Sémantique</span>
-                        <div className="p-4 rounded-lg bg-emerald-950/10 border border-emerald-500/10 text-zinc-300 font-mono text-sm leading-relaxed">
-                            {result.ai_analysis.correction_segments && result.ai_analysis.correction_segments.map((seg, idx) => (
-                            <span
-                                key={idx}
-                                className={`${seg.type === "correct" ? "text-emerald-300 bg-emerald-500/10 px-1 rounded mx-0.5" : seg.type === "incorrect" ? "text-red-400/50 bg-red-500/5 px-1 rounded mx-0.5 line-through decoration-red-500/30" : ""}`}
-                            >
-                                {seg.text}
-                            </span>
-                            ))}
-                        </div>
-                        </div>
-                    </div>
-                    )}
-                </div>
-                </div>
-            </div>
-            )}
+          </GlassCard>
         </div>
+        {/* End Right Column */}
+
       </div>
     </div>
   );

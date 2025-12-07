@@ -227,8 +227,8 @@ const FilesAudit = () => {
                         <div className="max-w-4xl mx-auto mt-6 animate-fade-in">
 
                             <div className="mb-10 text-center">
-                                <h2 className="text-3xl font-semibold text-white tracking-tight mb-3">Nouvel Audit de Sécurité</h2>
-                                <p className="text-slate-400 text-base max-w-lg mx-auto">Importez des données ou collez du texte. Notre IA locale détecte les données sensibles (PII) et les secrets en toute sécurité.</p>
+                                <h2 className="text-3xl font-semibold font-vogue text-white tracking-tight mb-3">Nouvel Audit de Sécurité</h2>
+                                <p className="text-slate-400 font-circular-web text-base max-w-lg mx-auto">Importez des données ou collez du texte. Notre IA locale détecte les données sensibles (PII) et les secrets en toute sécurité.</p>
                             </div>
 
                             <div className="bg-[#121214] border border-white/10 rounded-2xl overflow-hidden shadow-2xl shadow-black/50">
@@ -236,7 +236,7 @@ const FilesAudit = () => {
                                 <div className="flex border-b border-white/5 bg-black/20">
                                     <button
                                         onClick={() => setInputType('text')}
-                                        className={`flex-1 py-4 text-sm font-medium flex items-center justify-center gap-2.5 transition-all ${inputType === 'text' ? 'text-blue-400 bg-blue-500/5 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border-b-2 border-transparent'}`}
+                                        className={`flex-1 font-classyvogue py-4 text-sm font-medium flex items-center justify-center gap-2.5 transition-all ${inputType === 'text' ? 'text-blue-400 bg-blue-500/5 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border-b-2 border-transparent'}`}
                                     >
                                         <FileText className="w-4 h-4" />
                                         Texte Brut
@@ -244,7 +244,7 @@ const FilesAudit = () => {
                                     <div className="w-[1px] bg-white/5"></div>
                                     <button
                                         onClick={() => setInputType('file')}
-                                        className={`flex-1 py-4 text-sm font-medium flex items-center justify-center gap-2.5 transition-all ${inputType === 'file' ? 'text-blue-400 bg-blue-500/5 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border-b-2 border-transparent'}`}
+                                        className={`flex-1 font-classyvogue py-4 text-sm font-medium flex items-center justify-center gap-2.5 transition-all ${inputType === 'file' ? 'text-blue-400 bg-blue-500/5 border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border-b-2 border-transparent'}`}
                                     >
                                         <Upload className="w-4 h-4" />
                                         Fichier
@@ -367,8 +367,9 @@ const FilesAudit = () => {
                     )}
 
                     {/* --- RESULTS STATE --- */}
+                    {/* --- RESULTS STATE --- */}
                     {status === 'results' && data && (
-                        <div className="max-w-[1400px] mx-auto animate-fade-in">
+                        <div className="max-w-[1400px] mx-auto animate-fade-in flex flex-col gap-8">
 
                             <div className="flex items-center justify-between mb-10">
                                 <div>
@@ -379,7 +380,7 @@ const FilesAudit = () => {
                                         <span className="text-sm font-medium text-slate-400">{stats.total_rows} lignes analysées</span>
                                     </div>
                                 </div>
-                                <div className="flex gap-4">
+                                <div className="flex gap-4 mt-16">
                                     <button onClick={resetApp} className="px-5 py-2.5 rounded-lg border border-white/10 text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white transition-colors">
                                         Nouveau Scan
                                     </button>
@@ -392,19 +393,18 @@ const FilesAudit = () => {
                                     </button>
                                 </div>
                             </div>
-
                             {/* Stats Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                                 <ResultCard label="Niveau de Risque" value={stats.pii > 0 ? "Élevé" : "Faible"} sub="Selon résultats" color={stats.pii > 0 ? "text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.3)]" : "text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.3)]"} />
                                 <ResultCard label="PII Détectées" value={stats.pii} sub="Champs sensibles" color="text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.3)]" />
                                 <ResultCard label="Nettoyage" value="100%" sub="Succès" color="text-emerald-400" />
                                 <ResultCard label="Temps Calcul" value="0.4s" sub="Moteur local" color="text-blue-400" />
                             </div>
 
-                            {/* Data Visualization */}
-                            <div className="grid lg:grid-cols-2 gap-8 h-[650px]">
+                            {/* Data Visualization: Empilé verticalement */}
+                            <div className="flex flex-col gap-8">
 
-                                {/* Input Data */}
+                                {/* Entrée Brute */}
                                 <div className="flex flex-col bg-[#121214] border border-white/10 rounded-2xl overflow-hidden shadow-lg">
                                     <div className="h-14 border-b border-white/5 bg-white/[0.02] flex items-center justify-between px-6 shrink-0">
                                         <div className="flex items-center gap-3">
@@ -432,7 +432,7 @@ const FilesAudit = () => {
                                     </div>
                                 </div>
 
-                                {/* Output Data */}
+                                {/* Sortie Nettoyée */}
                                 <div className="flex flex-col bg-[#121214] border border-blue-500/30 rounded-2xl overflow-hidden shadow-[0_0_50px_-20px_rgba(59,130,246,0.15)]">
                                     <div className="h-14 border-b border-blue-500/10 bg-blue-500/[0.04] flex items-center justify-between px-6 shrink-0">
                                         <div className="flex items-center gap-3">
@@ -461,9 +461,13 @@ const FilesAudit = () => {
                                         </table>
                                     </div>
                                 </div>
+
+
+
                             </div>
                         </div>
                     )}
+
 
                 </div>
             </main>

@@ -11,11 +11,10 @@ const VIDEOS = [
 ];
 
 const menuItems = [
-  { label: "Hallucinations", sub: "01", video: VIDEOS[0], link: "/hallucination" },
+  { label: "Acceuil", sub: "01", video: VIDEOS[3], link: "/" },
   { label: "Auditeur", sub: "02", video: VIDEOS[1], link: "/audit" },
-  { label: "Autres", sub: "03", video: VIDEOS[2], link: "/hallucination" },
-  { label: "Toxicite", sub: "04", video: VIDEOS[3], link: "/detoxify" },
-  { label: "Acceuil", sub: "05", video: VIDEOS[3], link: "/" },
+  { label: "Toxicite", sub: "03", video: VIDEOS[3], link: "/detoxify" },
+  { label: "Hallucinations", sub: "04", video: VIDEOS[0], link: "/hallucination" },
 
 ];
 

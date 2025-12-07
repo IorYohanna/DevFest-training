@@ -1,9 +1,11 @@
 import React, { useState, useCallback } from "react";
-import { Phone, Video, Info, Smile, Image, Heart, ChevronDown, SquarePen, Shield, Copy, Send, ArrowLeft } from "lucide-react"; // Importation de ArrowLeft
+import { 
+    Phone, Video, Info, Smile, Image, Heart, ChevronDown, SquarePen, Shield, Copy, Send, ArrowLeft,
+    Home, Search, MessageSquare, Bell, User, Clapperboard, Layers, Settings, Menu 
+} from "lucide-react"; 
 import { Link } from "react-router-dom";
 
 // --- Le reste des données statiques (initialMessages, users, notes, sanitizeText) est inchangé ---
-// ... (code non modifié pour les données statiques et sanitizeText)
 
 const initialMessages = [
     {
@@ -69,8 +71,64 @@ const sanitizeText = (text) => {
 };
 
 
-// --- Composants de l'Application ---
+// --- NOUVEAU : Composante Barre de Navigation Principale (Extrême Gauche) ---
+const NavigationBar = () => {
+    // Liste d'éléments de navigation typiques d'Instagram
+    const navItems = [
+        { icon: Home, label: "Accueil", active: false },
+        { icon: Search, label: "Rechercher", active: false },
+        { icon: Clapperboard, label: "Reels", active: false },
+        { icon: MessageSquare, label: "Messages", active: true }, // Actif car nous sommes dans la messagerie
+        { icon: Bell, label: "Notifications", active: false },
+        { icon: SquarePen, label: "Créer", active: false },
+    ];
 
+    const profileAvatar = "https://i.pravatar.cc/150?u=johndoe"; // Votre avatar
+
+    return (
+        <nav className="hidden md:flex flex-col w-[72px] bg-[#1c1c1c] text-white h-full border-r border-[#2e2e2e] py-8 items-center justify-between">
+            {/* Logo Instagram/Pseudo */}
+            <Link to="/" className="mb-8">
+                 <svg aria-label="Instagram" className="w-6 h-6" fill="currentColor" height="24" viewBox="0 0 48 48" width="24"><path d="M24 48C10.8 48 0 37.2 0 24S10.8 0 24 0s24 10.8 24 24-10.8 24-24 24zm0-45C12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21S35.6 3 24 3z"/><path d="M28.9 24.3c0-2.8 2.2-5 5-5s5 2.2 5 5-2.2 5-5 5-5-2.2-5-5zm5 8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/><path d="M14 24.3c0-2.8 2.2-5 5-5s5 2.2 5 5-2.2 5-5 5-5-2.2-5-5zm5 8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
+            </Link>
+            
+            {/* Icônes de Navigation */}
+            <div className="flex flex-col items-center gap-6 flex-1">
+                {navItems.map((item) => (
+                    <div 
+                        key={item.label} 
+                        className={`p-3 rounded-xl cursor-pointer transition-colors ${item.active ? 'bg-[#2e2e2e]' : 'hover:bg-[#2e2e2e]/50'}`}
+                        title={item.label}
+                    >
+                        <item.icon className={`w-6 h-6 ${item.active ? 'text-white' : 'text-gray-400'}`} />
+                    </div>
+                ))}
+
+                {/* Profil (Avatar) */}
+                <div 
+                    className={`p-1.5 rounded-full cursor-pointer transition-colors mt-2 ${!navItems.find(i => i.active) && 'ring-2 ring-white/80'}`} // Anneau si rien n'est actif
+                    title="Profil"
+                >
+                    <img 
+                        src={profileAvatar} 
+                        alt="Profil" 
+                        className="w-8 h-8 rounded-full object-cover"
+                    />
+                </div>
+            </div>
+
+            {/* Bouton Plus/Menu */}
+            <div 
+                className="p-3 rounded-xl cursor-pointer transition-colors hover:bg-[#2e2e2e]/50"
+                title="Plus"
+            >
+                <Menu className="w-6 h-6 text-gray-400" />
+            </div>
+        </nav>
+    );
+};
+
+// --- Composante de la Liste de Conversations (Ancienne Sidebar) ---
 const Sidebar = () => {
     // Utilisation de couleurs gris foncé typiques d'Instagram/Meta
     return (
@@ -143,7 +201,7 @@ const Sidebar = () => {
                 ))}
             </div>
             
-            {/* NOUVEAU : Bouton de retour en bas à gauche */}
+            {/* Bouton de retour */}
             <div className="p-4 border-t border-[#2e2e2e] bg-[#1c1c1c]">
                 <Link to="/audit" 
                     className="flex items-center gap-2 p-2 text-sm font-medium rounded-full text-gray-400 hover:text-white hover:bg-[#2e2e2e] transition-colors"
@@ -172,15 +230,15 @@ Encore félicitations pour ta victoire et profite bien de ton cadeau ! ✨`;
     const [rawText, setRawText] = useState(initialMessages[2].content); 
     const [sanitizedText, setSanitizedText] = useState("");
     const [isCopying, setIsCopying] = useState(false);
-    const [replyMessage, setReplyMessage] = useState(defaultReply); // Nouvel état pour la réponse éditable
-    const [canSendReply, setCanSendReply] = useState(false); // Contrôle l'affichage de la zone de réponse
+    const [replyMessage, setReplyMessage] = useState(defaultReply); 
+    const [canSendReply, setCanSendReply] = useState(false); 
 
     
     // Fonction de nettoyage exécutée au clic
     const handleSanitize = useCallback(() => {
         const result = sanitizeText(rawText);
         setSanitizedText(result);
-        setCanSendReply(true); // Autorise l'affichage de la zone de réponse après l'audit
+        setCanSendReply(true); 
     }, [rawText]);
 
     // Fonction de copie
@@ -208,7 +266,7 @@ Encore félicitations pour ta victoire et profite bien de ton cadeau ! ✨`;
             setCanSendReply(false);
             setSanitizedText("");
             setReplyMessage(defaultReply);
-            setIsAuditorActive(false); // Retour au mode chat classique
+            setIsAuditorActive(false); 
         }
     };
 
@@ -247,22 +305,22 @@ Encore félicitations pour ta victoire et profite bien de ton cadeau ! ✨`;
             
             {/* Boutons d'Action Audit */}
             <div className="flex justify-between items-center mt-2 border-t border-gray-700 pt-3">
-                 <button 
-                    onClick={handleSanitize}
-                    className="px-5 py-2 text-base font-semibold rounded-full bg-blue-500 hover:bg-blue-600 transition-colors shadow-lg disabled:opacity-50"
-                    disabled={!rawText}
-                >
-                    🚀 Lancer l'Audit
-                </button>
-                
-                <button 
-                    onClick={handleCopy}
-                    className="px-3 py-2 text-base font-semibold rounded-full bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 transition-colors shadow-lg flex items-center gap-2 disabled:opacity-50"
-                    disabled={!sanitizedText}
-                >
-                    <Copy className="w-4 h-4"/>
-                    {isCopying ? 'Copié ! ✅' : 'Copier données sécurisées'}
-                </button>
+                   <button 
+                        onClick={handleSanitize}
+                        className="px-5 py-2 text-base font-semibold rounded-full bg-blue-500 hover:bg-blue-600 transition-colors shadow-lg disabled:opacity-50"
+                        disabled={!rawText}
+                    >
+                        🚀 Lancer l'Audit
+                    </button>
+                    
+                    <button 
+                        onClick={handleCopy}
+                        className="px-3 py-2 text-base font-semibold rounded-full bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 transition-colors shadow-lg flex items-center gap-2 disabled:opacity-50"
+                        disabled={!sanitizedText}
+                    >
+                        <Copy className="w-4 h-4"/>
+                        {isCopying ? 'Copié ! ✅' : 'Copier données sécurisées'}
+                    </button>
             </div>
             
             {/* Zone de Réponse Manuelle (apparaît après l'audit) */}
@@ -352,8 +410,8 @@ Encore félicitations pour ta victoire et profite bien de ton cadeau ! ✨`;
                         <div className={`flex flex-col max-w-[60%]`}>
                             <div
                                 className={`px-4 py-2.5 rounded-3xl text-[15px] whitespace-pre-wrap leading-relaxed ${msg.type === "outgoing"
-                                        ? "bg-blue-500 text-white rounded-br-sm" // Bulles bleues classiques de Messenger
-                                        : "bg-[#2e2e2e] text-white rounded-bl-sm" // Bulles grises sombres pour l'entrant
+                                        ? "bg-blue-500 text-white rounded-br-sm" 
+                                        : "bg-[#2e2e2e] text-white rounded-bl-sm" 
                                     }`}
                             >
                                 {msg.content}
@@ -411,6 +469,7 @@ export default function MessengerClone() {
                     scrollbar-width: none; /* Firefox */
                 }
             `}</style>
+            <NavigationBar /> 
             <Sidebar />
             <ChatArea />
         </div>

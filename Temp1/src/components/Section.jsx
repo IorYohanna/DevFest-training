@@ -59,7 +59,7 @@ const Section
                     className="absolute w-full object-cover top-[-50%]"
                     />
 
-                    <div class="absolute top-2/4 left-2/3 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                    <div class="absolute top-2/4 left-2/3 transform -translate-x-1/2 -translate-y-1/2 text-center text-black">
                         <h1 class="text-9xl font-bold font-classyvogue">DevFest 2025</h1>
                         <p class=" text-3xl font-newyork">GDG Antananarivo</p>
                     </div>

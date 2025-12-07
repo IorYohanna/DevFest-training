@@ -11,7 +11,7 @@ const suggestions = [
 
 export const RightSidebar = () => {
     return (
-        <aside className="hidden xl:block w-[380px] pr-20 pt-10 mr-10">
+        <aside className="hidden xl:block w-[380px] pr-20 pt-24 mr-10">
             <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
                     <img src="./img/outsiders/Outsiders.jpg" className="w-12 h-12 rounded-full object-cover" alt="My Profile" />
