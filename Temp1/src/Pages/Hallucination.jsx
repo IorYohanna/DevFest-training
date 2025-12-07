@@ -151,7 +151,7 @@ export default function HallucinationBusterFusion() {
   return (
     // Changement : Fond global Blue/Slate foncé au lieu de marron.
     // Selection color passée de Indigo à Sky
-    <div className="h-screen bg-[#0f172a] text-zinc-200 p-4 md:p-6 font-sans selection:bg-sky-500/30 overflow-hidden cd  z-999">
+    <div className="h-screen bg-[#0f172a] relative text-zinc-200 p-4 md:p-6 font-sans selection:bg-sky-500/30 overflow-hidden cd  z-999">
       
       {/* Background Blobs harmonisés (Bleu et Cyan) */}
       <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-sky-900/20 rounded-full blur-[120px] pointer-events-none"></div>
