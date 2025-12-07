@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 // Icons
 const Icons = {
@@ -59,7 +59,7 @@ const StatusBadge = ({ step, currentStep, label }) => {
 };
 
 // Main Component
-export default function HallucinationBuster() {
+export default function Hallucination() {
   const [userInput, setUserInput] = useState("");
   const [loadingStep, setLoadingStep] = useState(0);
   const [result, setResult] = useState(null);

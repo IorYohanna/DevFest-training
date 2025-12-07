@@ -15,7 +15,6 @@ if (window.hallucinationDetectorLoaded) {
 
     try {
       if (request.action === "ping") {
-        // Répondre immédiatement pour confirmer que le script est prêt
         sendResponse({ success: true, ready: true });
       } else if (request.action === "showLoader") {
         showLoader();
@@ -41,7 +40,7 @@ if (window.hallucinationDetectorLoaded) {
       sendResponse({ success: false, error: error.message });
     }
 
-    return true; // Réponse asynchrone
+    return true;
   });
 
   // Fonction principale d'analyse
@@ -57,12 +56,9 @@ if (window.hallucinationDetectorLoaded) {
     }
     
     console.log('🔄 Analyse du texte:', text);
-    
-    // Afficher le loader
     showLoader();
     
     try {
-      // Envoyer au background script qui fera l'appel API
       chrome.runtime.sendMessage({
         action: "checkHallucination",
         text: text
@@ -93,34 +89,41 @@ if (window.hallucinationDetectorLoaded) {
 
   // Afficher le loader
   function showLoader() {
-    // Supprimer l'ancien loader s'il existe
-    const oldLoader = document.getElementById('hallucination-loader');
+    const oldLoader = document.getElementById('hd-loader-wrapper');
     if (oldLoader) oldLoader.remove();
 
     const loader = document.createElement('div');
-    loader.id = 'hallucination-loader';
+    loader.id = 'hd-loader-wrapper';
+    loader.className = 'hd-wrapper';
+    
     loader.innerHTML = `
-      <div class="hd-loader-content">
-        <div class="hd-spinner"></div>
-        <p>Analyse en cours...</p>
-        <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">✅ Loader affiché avec succès</p>
+      <div class="hd-backdrop"></div>
+      <div class="hd-card hd-loader-card">
+        <div class="hd-aurora-bg"></div>
+        <div style="position: relative; z-index: 1;">
+          <div class="hd-loader-visual">
+            <div class="hd-orb"></div>
+            <div class="hd-orb hd-delay"></div>
+          </div>
+          <p class="hd-title-sm">Analyse en cours...</p>
+          <p class="hd-desc" style="margin-top: 8px;">Vérification factuelle via RAG</p>
+        </div>
       </div>
     `;
     
-    // S'assurer qu'il est ajouté au body
     if (document.body) {
       document.body.appendChild(loader);
-      console.log('⏳ Loader affiché avec succès');
-      console.log('🔍 Loader element:', loader);
+      console.log('⏳ Loader affiché');
     } else {
       console.error('❌ document.body n\'existe pas encore');
     }
   }
 
   function hideLoader() {
-    const loader = document.getElementById('hallucination-loader');
+    const loader = document.getElementById('hd-loader-wrapper');
     if (loader) {
-      loader.remove();
+      loader.classList.add('hd-exit');
+      setTimeout(() => loader.remove(), 200);
       console.log('✅ Loader masqué');
     }
   }
@@ -129,11 +132,8 @@ if (window.hallucinationDetectorLoaded) {
   function showResultModal(data, originalText) {
     console.log('📊 Affichage du résultat modal');
     console.log('📦 Data reçue:', data);
-    console.log('📝 Original text:', originalText);
     
-    // Supprimer l'ancien modal s'il existe
     if (currentModal) {
-      console.log('🗑️ Suppression ancien modal');
       currentModal.remove();
     }
     
@@ -142,60 +142,50 @@ if (window.hallucinationDetectorLoaded) {
       return;
     }
     
-    const isHallucination = data.ai_analysis.is_hallucination;
-    const confidence = (data.ai_analysis.confidence_score * 100).toFixed(1);
+    const isCorrect = data.is_correct === true;
+    const confidence = data.confidence ? (data.confidence * 100).toFixed(0) : 0;
     
-    console.log(`🎯 Hallucination: ${isHallucination}, Confiance: ${confidence}%`);
+    console.log(`🎯 Correct: ${isCorrect}, Confiance: ${confidence}%`);
     
     const modal = document.createElement('div');
-    modal.id = 'hallucination-modal';
-    modal.className = 'hd-modal';
-    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2147483647;';
+    modal.id = 'hd-result-wrapper';
+    modal.className = `hd-wrapper ${isCorrect ? 'hd-theme-success' : 'hd-theme-warning'}`;
     
     modal.innerHTML = `
-      <div class="hd-modal-overlay"></div>
-      <div class="hd-modal-content">
-        <button class="hd-modal-close" id="hd-close-btn">×</button>
+      <div class="hd-backdrop"></div>
+      <div class="hd-card">
+        <button class="hd-close-btn" id="hd-close-modal">×</button>
         
-        <div class="hd-modal-header ${isHallucination ? 'hd-error' : 'hd-success'}">
-          <div class="hd-icon">
-            ${isHallucination ? '⚠️' : '✓'}
+        <div class="hd-header">
+          <div class="hd-badge">
+            <span>${isCorrect ? '✓' : '⚠️'}</span>
+            <span>${isCorrect ? 'CONTENU VÉRIFIÉ' : 'HALLUCINATION DÉTECTÉE'}</span>
           </div>
-          <h2>${isHallucination ? 'HALLUCINATION DÉTECTÉE' : 'INFORMATION VÉRIFIÉE'}</h2>
-          <p class="hd-confidence">Confiance: ${confidence}%</p>
+          <h2 class="hd-title">Analyse Complétée</h2>
+          <p class="hd-subtitle">Confiance : ${confidence}%</p>
         </div>
         
-        <div class="hd-modal-body">
-          <div class="hd-section">
-            <h3>📝 Texte Original</h3>
-            <div class="hd-text-box hd-original">
-              ${escapeHtml(originalText)}
-            </div>
+        <div class="hd-section">
+          <span class="hd-label">📝 Texte Original</span>
+          <div class="hd-glass-box" style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.1);">
+            <p style="text-decoration: line-through; opacity: 0.6;">${escapeHtml(originalText)}</p>
           </div>
-          
-          <div class="hd-section">
-            <h3>✅ Version Corrigée</h3>
-            <div class="hd-text-box hd-corrected">
-              ${escapeHtml(data.ai_analysis.corrected_text)}
-            </div>
-            <button class="hd-copy-btn" id="hd-copy-btn">
-              📋 Copier le texte corrigé
-            </button>
+        </div>
+        
+        <div class="hd-section">
+          <span class="hd-label">✅ Version Corrigée</span>
+          <div class="hd-glass-box" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.1);">
+            <p>${escapeHtml(data.corrected_version || 'Aucune correction disponible')}</p>
           </div>
-          
-          <div class="hd-section">
-            <h3>📚 Sources RAG (${data.ai_analysis.rag_sources.length})</h3>
-            <div class="hd-sources">
-              ${data.ai_analysis.rag_sources.map(source => `
-                <div class="hd-source">
-                  <span class="hd-source-title">${escapeHtml(source.title)}</span>
-                  <span class="hd-source-badge ${source.validity === 'correct' ? 'hd-valid' : 'hd-invalid'}">
-                    ${source.validity === 'correct' ? '✓' : '✗'}
-                  </span>
-                  <p class="hd-source-snippet">"${escapeHtml(source.snippet)}"</p>
-                </div>
-              `).join('')}
-            </div>
+          <button class="hd-copy-btn" id="hd-copy-text">
+            📋 Copier le texte corrigé
+          </button>
+        </div>
+        
+        <div class="hd-section">
+          <span class="hd-label">💡 Explication</span>
+          <div class="hd-glass-box">
+            <p style="font-size: 13px; color: #6b7280;">${escapeHtml(data.explanation || 'Aucune explication disponible')}</p>
           </div>
         </div>
       </div>
@@ -205,38 +195,30 @@ if (window.hallucinationDetectorLoaded) {
       document.body.appendChild(modal);
       currentModal = modal;
       console.log('✅ Modal ajouté au DOM');
-      console.log('🔍 Modal element:', modal);
-      console.log('🔍 Modal visible?', modal.offsetParent !== null);
-      
-      // Vérifier que le modal est bien dans le DOM
-      const checkModal = document.getElementById('hallucination-modal');
-      console.log('🔍 Modal retrouvé dans le DOM?', checkModal !== null);
       
     } catch (error) {
       console.error('❌ Erreur lors de l\'ajout du modal:', error);
-      // Notification de fallback
-      alert(`✅ Analyse terminée!\n\nHallucination: ${isHallucination ? 'OUI' : 'NON'}\nConfiance: ${confidence}%\n\nTexte corrigé:\n${data.ai_analysis.corrected_text}`);
+      alert(`✅ Analyse terminée!\n\nCorrect: ${isCorrect ? 'OUI' : 'NON'}\nConfiance: ${confidence}%\n\nTexte corrigé:\n${data.corrected_version}`);
       return;
     }
     
     // Événements
-    const closeBtn = document.getElementById('hd-close-btn');
+    const closeBtn = document.getElementById('hd-close-modal');
     if (closeBtn) {
-      console.log('✅ Bouton fermer trouvé');
       closeBtn.addEventListener('click', () => {
-        console.log('🔴 Fermeture du modal');
-        modal.remove();
-        currentModal = null;
+        modal.classList.add('hd-exit');
+        setTimeout(() => {
+          modal.remove();
+          currentModal = null;
+        }, 200);
       });
-    } else {
-      console.error('❌ Bouton fermer non trouvé');
     }
     
-    const copyBtn = document.getElementById('hd-copy-btn');
+    const copyBtn = document.getElementById('hd-copy-text');
     if (copyBtn) {
-      console.log('✅ Bouton copier trouvé');
       copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(data.ai_analysis.corrected_text).then(() => {
+        const textToCopy = data.corrected_version || '';
+        navigator.clipboard.writeText(textToCopy).then(() => {
           copyBtn.textContent = '✅ Copié !';
           setTimeout(() => {
             copyBtn.textContent = '📋 Copier le texte corrigé';
@@ -247,18 +229,19 @@ if (window.hallucinationDetectorLoaded) {
       });
     }
     
-    // Fermer en cliquant sur l'overlay
-    const overlay = modal.querySelector('.hd-modal-overlay');
-    if (overlay) {
-      console.log('✅ Overlay trouvé');
-      overlay.addEventListener('click', () => {
-        console.log('🔴 Fermeture via overlay');
-        modal.remove();
-        currentModal = null;
+    // Fermer en cliquant sur le backdrop
+    const backdrop = modal.querySelector('.hd-backdrop');
+    if (backdrop) {
+      backdrop.addEventListener('click', () => {
+        modal.classList.add('hd-exit');
+        setTimeout(() => {
+          modal.remove();
+          currentModal = null;
+        }, 200);
       });
     }
     
-    console.log('✅✅✅ Modal complètement configuré et affiché ✅✅✅');
+    console.log('✅ Modal complètement configuré');
   }
 
   // Afficher modal d'erreur
@@ -268,25 +251,30 @@ if (window.hallucinationDetectorLoaded) {
     if (currentModal) currentModal.remove();
     
     const modal = document.createElement('div');
-    modal.id = 'hallucination-modal';
-    modal.className = 'hd-modal';
+    modal.id = 'hd-error-wrapper';
+    modal.className = 'hd-wrapper';
     
     modal.innerHTML = `
-      <div class="hd-modal-overlay"></div>
-      <div class="hd-modal-content hd-modal-small">
-        <button class="hd-modal-close" id="hd-close-btn">×</button>
-        <div class="hd-modal-header hd-error">
-          <div class="hd-icon">⚠️</div>
-          <h2>Erreur</h2>
+      <div class="hd-backdrop"></div>
+      <div class="hd-card hd-loader-card">
+        <button class="hd-close-btn" id="hd-close-error">×</button>
+        
+        <div class="hd-header" style="text-align: center;">
+          <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
+          <h2 class="hd-title">Erreur</h2>
         </div>
-        <div class="hd-modal-body">
-          <p>${escapeHtml(errorMessage)}</p>
-          <p class="hd-error-hint">
-            💡 Assurez-vous que le backend tourne sur <code>http://localhost:8000</code>
-          </p>
-          <p class="hd-error-hint">
-            🔧 Commande: <code>uvicorn main:app --reload</code>
-          </p>
+        
+        <div class="hd-section">
+          <div class="hd-glass-box" style="background: rgba(239, 68, 68, 0.05);">
+            <p style="color: #dc2626; font-size: 14px;">${escapeHtml(errorMessage)}</p>
+          </div>
+          
+          <div style="margin-top: 16px; padding: 12px; background: rgba(249, 250, 251, 0.8); border-radius: 8px; font-size: 12px; color: #6b7280;">
+            <p style="margin-bottom: 8px;">💡 <strong>Assurez-vous que le backend tourne sur:</strong></p>
+            <code style="display: block; padding: 8px; background: white; border-radius: 4px; font-family: monospace;">http://localhost:8000</code>
+            <p style="margin-top: 8px;">🔧 <strong>Commande:</strong></p>
+            <code style="display: block; padding: 8px; background: white; border-radius: 4px; font-family: monospace;">uvicorn main:app --reload</code>
+          </div>
         </div>
       </div>
     `;
@@ -294,19 +282,25 @@ if (window.hallucinationDetectorLoaded) {
     document.body.appendChild(modal);
     currentModal = modal;
     
-    const closeBtn = document.getElementById('hd-close-btn');
+    const closeBtn = document.getElementById('hd-close-error');
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
-        modal.remove();
-        currentModal = null;
+        modal.classList.add('hd-exit');
+        setTimeout(() => {
+          modal.remove();
+          currentModal = null;
+        }, 200);
       });
     }
 
-    const overlay = modal.querySelector('.hd-modal-overlay');
-    if (overlay) {
-      overlay.addEventListener('click', () => {
-        modal.remove();
-        currentModal = null;
+    const backdrop = modal.querySelector('.hd-backdrop');
+    if (backdrop) {
+      backdrop.addEventListener('click', () => {
+        modal.classList.add('hd-exit');
+        setTimeout(() => {
+          modal.remove();
+          currentModal = null;
+        }, 200);
       });
     }
   }
