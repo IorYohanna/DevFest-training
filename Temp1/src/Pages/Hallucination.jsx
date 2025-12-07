@@ -151,7 +151,7 @@ export default function HallucinationBusterFusion() {
   return (
     // Changement : Fond global Blue/Slate foncé au lieu de marron.
     // Selection color passée de Indigo à Sky
-    <div className="min-h-screen bg-[#0f172a] text-zinc-200 p-4 md:p-6 font-sans selection:bg-sky-500/30">
+    <div className="h-screen bg-[#0f172a] text-zinc-200 p-4 md:p-6 font-sans selection:bg-sky-500/30 overflow-hidden cd  z-999">
       
       {/* Background Blobs harmonisés (Bleu et Cyan) */}
       <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-sky-900/20 rounded-full blur-[120px] pointer-events-none"></div>
@@ -226,7 +226,7 @@ export default function HallucinationBusterFusion() {
                     <h5 className="text-sm font-medium text-zinc-200">{item.title}</h5>
                     <p className="text-xs text-zinc-500">{item.sub}</p>
                   </div>
-                  <button className="w-8 h-8 rounded-full border border-slate-700 flex items-center justify-center text-zinc-600 hover:text-white hover:border-zinc-600">
+                  <button className="w-8 h-8 rounded-full border border-white flex items-center justify-center text-white hover:text-white hover:border-zinc-600">
                     <Icons.ArrowUp className="w-3 h-3 rotate-45" />
                   </button>
                 </GlassCard>
@@ -251,9 +251,7 @@ export default function HallucinationBusterFusion() {
                   <p className="text-zinc-500 text-sm">Prêt à vérifier la vérité ?</p>
                 </div>
               </div>
-              <button className="p-2 text-zinc-500 hover:text-white transition-colors">
-                <Icons.More className="w-5 h-5" />
-              </button>
+
             </div>
 
             {/* MAIN CONTENT SCROLLABLE */}
@@ -429,7 +427,7 @@ export default function HallucinationBusterFusion() {
               )}
             </div>
             {/* --- BOTTOM INPUT AREA (Floating Bar) --- */}
-                <div className="p-8 pt-4 mt-auto">
+                <div className="absolute bottom-0 left-0 right-0 p-8">
                     <form onSubmit={handleSubmit} className="relative group z-20">
                         {/* Glow effect behind input - Changement Indigo/Purple -> Sky/Blue */}
                         <div className={`absolute -inset-0.5 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-1000 group-focus-within:opacity-50 ${loadingStep > 0 ? 'hidden' : ''}`}></div>
