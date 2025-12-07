@@ -7,7 +7,7 @@ const VIDEOS = [
   "/video/vid6.mp4",
   "/video/vid7.mp4",
   "/video/vid8.mp4",
-  "/video/vid9.mp4",
+  "/video/vid10.mp4",
 ];
 
 const menuItems = [
