@@ -43,10 +43,11 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="/audit" element={<FileAudit />} />
           <Route path="/messenger" element={<MessengerClone />} />
+          <Route path="/hallucination" element={<Hallucination />} />
+          <Route path="/detoxify" element={<Detoxify />} />
+          <Route path="/instagram" element={<Instagram />} />
         </Route>
-        <Route path="/hallucination" element={<Hallucination />} />
-        <Route path="/detoxify" element={<Detoxify />} />
-        <Route path="/instagram" element={<Instagram />} />
+
 
 
       </Routes>

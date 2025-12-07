@@ -1,14 +1,14 @@
-import React from 'react'
-import MenuBar from '../MenuBar'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import MenuBar from "../MenuBar";
 
-const Mainlayout = () => {
+export default function Mainlayout() {
   return (
-    <div className="flex h-screen bg-linear-to-br from-[#73839E] to-[#5a729b] relative overflow-hidden">
-        <MenuBar/>
-        <Outlet/>
+    <div className="w-full min-h-screen bg-black text-white">
+      <MenuBar />
+      <div className="pt-0"> 
+        <Outlet />
+      </div>
     </div>
-  )
+  );
 }
-
-export default Mainlayout

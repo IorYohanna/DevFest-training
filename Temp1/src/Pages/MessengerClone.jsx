@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from "react";
-import { Phone, Video, Info, Smile, Image, Heart, ChevronDown, SquarePen, Shield, Copy, Send } from "lucide-react";
+import { Phone, Video, Info, Smile, Image, Heart, ChevronDown, SquarePen, Shield, Copy, Send, ArrowLeft } from "lucide-react"; // Importation de ArrowLeft
+import { Link } from "react-router-dom";
 
-// --- Données Statiques (inchangées) ---
+// --- Le reste des données statiques (initialMessages, users, notes, sanitizeText) est inchangé ---
+// ... (code non modifié pour les données statiques et sanitizeText)
 
 const initialMessages = [
     {
@@ -139,6 +141,17 @@ const Sidebar = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+            
+            {/* NOUVEAU : Bouton de retour en bas à gauche */}
+            <div className="p-4 border-t border-[#2e2e2e] bg-[#1c1c1c]">
+                <Link to="/audit" 
+                    className="flex items-center gap-2 p-2 text-sm font-medium rounded-full text-gray-400 hover:text-white hover:bg-[#2e2e2e] transition-colors"
+                    title="Retour"
+                >
+                    <ArrowLeft className="w-5 h-5" />
+                    <span>Retour</span>
+                </Link>
             </div>
         </aside>
     );

@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { gsap } from 'gsap';
-/* import logo from '/img/outsiders/Outsiders.svg'; */
 import { Link } from 'react-router-dom';
 
 const VIDEOS = [
-  "/video/coffee-1.mp4",
-  "/video/coffee-2.mp4",
-  "/video/coffee-3.mp4",
-  "/video/coffee-4.mp4",
+  "/video/vid6.mp4",
+  "/video/vid7.mp4",
+  "/video/vid8.mp4",
+  "/video/vid9.mp4",
 ];
 
 const menuItems = [
-  { label: "SafeAi Auditor", sub: "01", video: VIDEOS[0], link:"/messenger" },
-  { label: "Work", sub: "02", video: VIDEOS[1] },
-  { label: "Studio", sub: "03", video: VIDEOS[2] },
-  { label: "Connect", sub: "04", video: VIDEOS[3] },
+  { label: "Hallucinations", sub: "01", video: VIDEOS[0], link: "/hallucination" },
+  { label: "Auditeur", sub: "02", video: VIDEOS[1], link: "/audit" },
+  { label: "Autres", sub: "03", video: VIDEOS[2], link: "/hallucination" },
+  { label: "Toxicite", sub: "04", video: VIDEOS[3], link: "/detoxify" },
+  { label: "Acceuil", sub: "05", video: VIDEOS[3], link: "/" },
+
 ];
 
 export default function MenuBar() {
@@ -72,9 +73,10 @@ export default function MenuBar() {
   return (
     <div ref={containerRef} className="relative h-full bg-gray-50 text-neutral-900 font-sans overflow-x-hidden">
 
+      {/* Header */}
       <header className="fixed top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-50 mix-blend-exclusion text-white">
         <div className="text-xl tracking-tighter flex items-center gap-3">
-      {/*     <img src={logo} alt="Logo" className="w-24 h-24 text-blue-500 hover:text-red-500 bg-white" /> */}
+          {/* Logo ici si besoin */}
         </div>
         <button
           onClick={() => setIsMenuOpen(v => !v)}
@@ -89,43 +91,41 @@ export default function MenuBar() {
         </button>
       </header>
 
+      {/* Overlay Menu */}
       <div
         ref={overlayRef}
-        className="fixed inset-0 z-40 flex"
+        className="fixed inset-0 z-40 flex pointer-events-none"
         style={{ pointerEvents: isMenuOpen ? "all" : "none" }}
       >
-        <div className="w-full lg:w-1/2 bg-black flex flex-col justify-between p-10 md:p-16 text-white">
-          <div className="flex-1 flex flex-col justify-center">
+        {/* Left Side */}
+        <div className="w-full lg:w-1/2 bg-black flex flex-col justify-between p-10 md:p-16 text-white relative z-20">
+          <div className="flex-1 flex flex-col justify-center relative z-10">
             <nav className="space-y-6">
               {menuItems.map((item, i) => (
-                <div
+                <Link
                   key={i}
-                  className="overflow-hidden cursor-pointer group"
+                  to={item.link ? item.link : "#"}
+                  className="block overflow-hidden"
                   onMouseEnter={() => setHoveredIndex(i)}
                   onMouseLeave={() => setHoveredIndex(null)}
+                  onClick={() => setIsMenuOpen(false)} // ← Ferme le menu après clic
+                  ref={addLinkRef}
                 >
-                  <div
-                    ref={addLinkRef}
-                    className="flex items-baseline gap-10"
-                  >
+                  <div className="flex items-baseline gap-10 cursor-pointer">
                     <span className="text-lg font-mono text-gray-500 group-hover:text-white transition">
                       {item.sub}
                     </span>
-                    <Link to={item.link ? item.link : "#"}>
-                    <h2 className={`text-8xl md:text-9xl lg:text-[11rem] font-black uppercase leading-none transition-all duration-500 ${hoveredIndex !== null && hoveredIndex !== i
-                      ? "opacity-20 blur-sm"
-                      : "opacity-100 blur-0"
-                      }`}>
+                    <h2 className={`text-7xl font-black font-transformers uppercase leading-none transition-all duration-500 ${hoveredIndex !== null && hoveredIndex !== i ? "opacity-20 blur-sm" : "opacity-100 blur-0"}`}>
                       {item.label}
                     </h2>
-                    </Link>
-                    
                   </div>
-                </div>
+                </Link>
               ))}
+
             </nav>
           </div>
 
+          {/* Footer */}
           <div ref={footerRef} className="border-t border-white/20 pt-10 text-sm uppercase tracking-widest opacity-0">
             <div className="flex flex-col md:flex-row justify-between gap-8">
               <div className="flex gap-10 text-gray-400">
@@ -141,6 +141,7 @@ export default function MenuBar() {
           </div>
         </div>
 
+        {/* Right Side - Videos */}
         <div className="hidden lg:block w-1/2 relative overflow-hidden bg-black">
           {menuItems.map((item, i) => (
             <video
@@ -151,8 +152,7 @@ export default function MenuBar() {
               loop
               playsInline
               preload="auto"
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${hoveredIndex === i ? "opacity-100" : "opacity-0"
-                }`}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${hoveredIndex === i ? "opacity-100" : "opacity-0"}`}
             />
           ))}
           <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent pointer-events-none" />

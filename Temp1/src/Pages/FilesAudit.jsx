@@ -199,7 +199,7 @@ const FilesAudit = () => {
 
                 {/* CONTENEUR DEMO + UTILISATEUR */}
                 <div className="px-5 flex flex-col items-center gap-3 mb-5">
-                    <Link to="/messenger" className="flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-tr from-[#feda75] via-[#fa7e1e] to-[#d62976] text-white font-semibold rounded-xl shadow-lg hover:scale-105 transition-transform duration-300">
+                    <Link to="/messenger" className="flex items-center justify-center gap-2 px-8 py-2.5 bg-gradient-to-tr from-[#feda75] via-[#fa7e1e] to-[#d62976] text-white font-semibold rounded-xl shadow-lg hover:scale-105 transition-transform duration-300">
                         Démo
                         <ArrowUpRight className="w-4 h-4 transform -rotate-12" />
                     </Link>
