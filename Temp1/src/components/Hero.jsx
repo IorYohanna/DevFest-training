@@ -143,45 +143,18 @@ const Hero = () => {
 
                 </div>
 
-                <h1 className='special-font text-[8rem] font-batman absolute top-[26%] text-end left-36 z-40 text-blue-50 leading-none'>
-                    
+                <h1 className='special-font text-[8rem] font-batman absolute top-[20%] text-end left-[3%] z-40 text-blue-50 leading-none'>
                     <span className='block text-blue-100/90 font-light tracking-wide'>
                         SAFE AI
                     </span>
                 </h1>
 
                 <h1 className='special-font text-[8rem] font-transformers absolute bottom-28 text-end right-20 z-40 text-blue-50 leading-none'>
-                    
+
                     <span className='block text-blue-100/70 font-light tracking-wide'>
                         FOR MANKIND
                     </span>
                 </h1>
-
-                {/* <div className='absolute font-transformers left-8 top-24 z-40 max-w-xl md:left-16 md:top-32'>
-                    <div className='space-y-8'>
-
-                        <h2 className='text-3xl md:text-4xl lg:text-5xl text-white leading-tight tracking-tight mt-32'>
-                            Ce que Norton est a, <span className='text-gray-300'>Internet</span>, <br />
-                            nous le sommes a l' <span className='text-blue-100'>IA.</span>
-                        </h2>
-
-                        <p className='text-base md:text-lg text-blue-100/90 leading-relaxed max-w-lg'>
-                            Nous construisons l'infrastructure de confiance pour l'ère de l'intelligence artificielle.
-                            <span className='block mt-3 text-white font-medium'>
-                                Chaque donnée mérite d'être protégée. Chaque modèle doit être éthique.
-                            </span>
-                        </p>
-
-                        <div className='flex items-center gap-4 pt-2'>
-                            <Button
-                                id='Explorer'
-                                title='Découvrir notre vision'
-                                leftIcon={<TiLocationArrow />}
-                                ContainerClass="!bg-gray-300 hover:!bg-white text-black font-semibold px-6 py-3 flex-center gap-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(253,224,71,0.4)]"
-                            />
-                        </div>
-                    </div>
-                </div> */}
             </div>
 
             <a
@@ -192,8 +165,10 @@ const Hero = () => {
                 <div className='w-[1px] h-12 bg-white/30 group-hover:h-16 transition-all duration-300'></div>
             </a>
 
-            <h1 className='font-transformers leading-none text-[6rem] text-end absolute bottom-5 right-10 text-black'>
-                Safe AI <br /> for mankind
+            <h1 className='font-transformers leading-none text-[8rem] text-end absolute bottom-28 right-20 text-black'>
+                <span className='block text-black/70 font-light tracking-wide'>
+                    FOR MANKIND
+                </span>
             </h1>
 
         </div>

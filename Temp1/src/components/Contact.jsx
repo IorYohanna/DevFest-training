@@ -19,13 +19,13 @@ const Contact = () => {
             <div className="absolute -left-20 top-0 hidden h-full w-72 overflow-hidden sm:block lg:left-20 lg:w-96">
 
                 <ImgClipBox
-                src="img/contact-1.webp"
+                src="img/background/purple.jpg"
                 Clip="contact-clip-path-1"
                 /> 
 
                 <ImgClipBox
-                src="img/contact-2.webp"
-                Clip="contact-clip-path-2 translate-y-40 lg:translate-y-20"
+                src="img/contact3.jpg"
+                Clip="contact-clip-path-2 -translate-y-20"
                 />
 
             </div>
@@ -34,27 +34,27 @@ const Contact = () => {
         
                 <ImgClipBox
                     src="/img/swordman-partial.webp"
-                    Clip="absolute md:scale-125"
+                    Clip="absolute md:scale-120"
                 />
 
                 <ImgClipBox
-                    src="/img/swordman.webp"
-                    Clip="sword-man-clip-path md:scale-125"
+                    src="/img/contact3.jpg"
+                    Clip="sword-man-clip-path md:scale-150"
                 />
 
             </div>
 
             <div className="flex flex-col items-center text-center">
-                <p className="font-general text-[10px] uppercase">
-                    Join Us
+                <p className="font-general text-[30px] uppercase">
+                    Rejoignez Nous !
                 </p>
 
-                <p className=" font-zentry special-font mt-10 w-full  text-5xl leading-[.9] md:text-[6rem] ">
-                    Let's Build <br/> A New era
+                <p className="mb-6 font-zentry special-font mt-10 w-full  text-5xl leading-[.9] md:text-[6rem] ">
+                    Créons Ensemble <br/>Une Nouvelle ère
                 </p>
 
                 <Button
-                title="contact us"
+                title="contactez nous"
                 containerClass = "cursor-pointer"
                 />
 

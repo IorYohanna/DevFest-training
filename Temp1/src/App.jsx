@@ -18,6 +18,8 @@ import FileAudit from './Pages/FilesAudit'
 import Hallucination from './Pages/Hallucination'
 import Detoxify from './components/detoxify/Detoxify'
 import Instagram from './components/instagram/Instagram'
+import MessengerClone from './Pages/MessengerClone'
+import Mainlayout from './components/layouts/Mainlayout'
 
 const Home = () => (
   <main className="relative min-h-screen w-screen overflow-hidden">
@@ -28,7 +30,6 @@ const Home = () => (
     <Features />
     <Story />
     <Contact />
-    <MenuBar />
     <Footer />
   </main>
 )
@@ -38,13 +39,16 @@ const App = () => {
     <Router>
       <Routes>
         {/* Home */}
-        <Route path="/" element={<Home />} />
-
-        {/* Other Pages */}
+        <Route path="/" element={<Mainlayout />} >
+          <Route index element={<Home />} />
+          <Route path="/audit" element={<FileAudit />} />
+          <Route path="/messenger" element={<MessengerClone />} />
+        </Route>
         <Route path="/hallucination" element={<Hallucination />} />
         <Route path="/detoxify" element={<Detoxify />} />
         <Route path="/instagram" element={<Instagram />} />
-        <Route path="/audit" element={<FileAudit />} />
+
+
       </Routes>
     </Router>
   )

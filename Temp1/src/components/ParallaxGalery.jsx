@@ -58,13 +58,20 @@ export default function ParallaxCarousel() {
         loadGSAP();
     }, []);
 
-    const projects = [
-        { id: 1, title: 'AETHER', src: '/img/gallery-1.webp', category: 'Direction Artistique' },
-        { id: 2, title: 'ECLIPSE', src: '/img/gallery-2.webp', category: 'Web Design' },
-        { id: 3, title: 'OBLIVION', src: '/img/gallery-3.webp', category: 'Branding' },
-        { id: 4, title: 'NEBULA', src: '/img/gallery-4.webp', category: 'Développement' },
-        { id: 5, title: 'VORTEX', src: '/img/gallery-5.webp', category: '3D Motion' },
-        { id: 6, title: 'HORIZON', src: '/img/swordman.webp', category: 'Photography' },
+    const projects1 = [
+        { id: 1, title: 'Surveillance Totale', src: '/img/risk/ia-1.jpg', category: 'Direction Artistique' },
+        { id: 2, title: 'Biais Algorithmique', src: '/img/risk/risk2.jpg', category: 'Web Design' },
+        { id: 3, title: 'Erreur Fatale', src: '/img/risk/risk3.jpg', category: 'Branding' }
+    ];
+    const projects2 = [
+        { id: 1, title: 'Bouclier IA', src: '/img/risk/protect.jpg', category: 'Développement' },
+        { id: 2, title: 'Contrôle Automatisé', src: '/img/risk/protect2.jpg', category: '3D Motion' },
+        { id: 3, title: 'Sécurité Avancée', src: '/img/risk/protect3.jpg', category: 'Photography' },
+    ];
+    const projects3 = [
+        { id: 1, title: 'IA Responsable', src: '/img/risk/ia-3.jpg', category: 'Développement' },
+        { id: 2, title: 'Surveillance Éthique', src: '/img/risk/ia-5.jpg', category: '3D Motion' },
+        { id: 3, title: 'Prévention des Risques', src: '/img/risk/ia-2.jpg', category: 'Photography' },
     ];
 
     const ProjectCard = ({ project }) => (
@@ -85,15 +92,15 @@ export default function ParallaxCarousel() {
                 <div className="gallery-wrapper flex justify-center gap-[6vw] w-full max-w-[1600px] mx-auto pt-[10vh] h-full">
 
                     <div className="column column-left w-[40%] flex flex-col gap-[15vh] will-change-transform" ref={leftColRef}>
-                        {[...projects.slice(0, 3), ...projects.slice(0, 3), ...projects.slice(0, 3), ...projects.slice(0, 3)].map((p, i) => <ProjectCard key={`left-${p.id}-${i}`} project={p} />)}
+                        {[...projects1.slice(0, 3), ...projects1.slice(0, 3), ...projects1.slice(0, 3), ...projects1.slice(0, 3)].map((p, i) => <ProjectCard key={`left-${p.id}-${i}`} project={p} />)}
                     </div>
 
                     <div className="column column-center w-[40%] flex flex-col gap-[15vh] will-change-transform mt-[20vh]" ref={rightColRef}>
-                        {[...projects.slice(3, 6), ...projects.slice(3, 6), ...projects.slice(3, 6), ...projects.slice(3, 6)].map((p, i) => <ProjectCard key={`center-${p.id}-${i}`} project={p} />)}
+                        {[...projects2.slice(0, 3), ...projects2.slice(0, 3), ...projects2.slice(0, 3), ...projects2.slice(0, 3)].map((p, i) => <ProjectCard key={`center-${p.id}-${i}`} project={p} />)}
                     </div>
 
                     <div className="column column-right w-[40%] flex flex-col gap-[15vh] will-change-transform" ref={thirdColRef}>
-                        {[...projects.slice(0, 3), ...projects.slice(0, 3), ...projects.slice(0, 3), ...projects.slice(0, 3)].map((p, i) => <ProjectCard key={`right-${p.id}-${i}`} project={p} />)}
+                        {[...projects3.slice(0, 3), ...projects3.slice(0, 3), ...projects3.slice(0, 3), ...projects3.slice(0,3)].map((p, i) => <ProjectCard key={`right-${p.id}-${i}`} project={p} />)}
                     </div>
                 </div>
             </section>

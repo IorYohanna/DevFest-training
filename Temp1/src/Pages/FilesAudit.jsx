@@ -5,8 +5,10 @@ import {
     Zap, CheckCircle2, Download, X, Search,
     Files, ShieldCheck, Cpu,
     // Icônes pour les options de configuration
-    Fingerprint, Key, MessageSquareX, FileCode
+    Fingerprint, Key, MessageSquareX, FileCode,
+    ArrowUpRight
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const FilesAudit = () => {
     // États de l'application
@@ -162,7 +164,6 @@ const FilesAudit = () => {
                 .animate-fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
             `}</style>
 
-            {/* ===== SIDEBAR ===== */}
             <aside className="w-[280px] border-r border-white/5 flex flex-col justify-between py-6 bg-[#0c0c0e] shrink-0">
                 <div className="flex flex-col gap-8 px-4">
                     <div className="flex items-center gap-4 px-2 mb-2">
@@ -195,8 +196,16 @@ const FilesAudit = () => {
                     </div>
                 </div>
 
-                <div className="px-5">
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors cursor-pointer group">
+
+                {/* CONTENEUR DEMO + UTILISATEUR */}
+                <div className="px-5 flex flex-col items-center gap-3 mb-5">
+                    <Link to="/messenger" className="flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-tr from-[#feda75] via-[#fa7e1e] to-[#d62976] text-white font-semibold rounded-xl shadow-lg hover:scale-105 transition-transform duration-300">
+                        Démo
+                        <ArrowUpRight className="w-4 h-4 transform -rotate-12" />
+                    </Link>
+
+                    {/* Carte utilisateur */}
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors cursor-pointer group w-full">
                         <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-sm font-bold shadow-lg">
                             JD
                         </div>
@@ -206,9 +215,9 @@ const FilesAudit = () => {
                         </div>
                     </div>
                 </div>
+
             </aside>
 
-            {/* ===== MAIN CONTENT ===== */}
             <main className="flex-1 flex flex-col relative h-full bg-[#09090b]">
 
                 <div className="flex-1 overflow-y-auto custom-scroll mt-5 relative">
@@ -322,8 +331,8 @@ const FilesAudit = () => {
                                         onClick={runAudit}
                                         disabled={!textInput && !fileName}
                                         className={`flex items-center gap-2.5 px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${(!textInput && !fileName)
-                                                ? 'bg-white/5 text-slate-500 cursor-not-allowed'
-                                                : 'bg-blue-600 text-white hover:bg-blue-500 shadow-[0_0_25px_-5px_rgba(37,99,235,0.5)] hover:shadow-[0_0_30px_-5px_rgba(37,99,235,0.6)]'
+                                            ? 'bg-white/5 text-slate-500 cursor-not-allowed'
+                                            : 'bg-blue-600 text-white hover:bg-blue-500 shadow-[0_0_25px_-5px_rgba(37,99,235,0.5)] hover:shadow-[0_0_30px_-5px_rgba(37,99,235,0.6)]'
                                             }`}
                                     >
                                         <Zap className="w-4 h-4 fill-current" />
@@ -464,6 +473,7 @@ const FilesAudit = () => {
 
 // ===== SOUS-COMPOSANTS =====
 
+// eslint-disable-next-line no-unused-vars
 const SidebarItem = ({ icon: Icon, label, active, onClick }) => (
     <button
         onClick={onClick}
@@ -486,12 +496,13 @@ const ResultCard = ({ label, value, sub, color }) => (
 );
 
 // NOUVEAU COMPOSANT: CARTE DE CONFIGURATION AVEC ICÔNE
+// eslint-disable-next-line no-unused-vars
 const ConfigCard = ({ icon: Icon, label, sub, active, onClick }) => (
     <button
         onClick={onClick}
         className={`flex items-center gap-4 p-4 rounded-xl border text-left transition-all duration-300 relative overflow-hidden group ${active
-                ? 'bg-blue-500/10 border-blue-500/50 shadow-[0_0_20px_-5px_rgba(59,130,246,0.3)]'
-                : 'bg-[#0c0c0e] border-white/5 hover:border-white/10 hover:bg-white/[0.02]'
+            ? 'bg-blue-500/10 border-blue-500/50 shadow-[0_0_20px_-5px_rgba(59,130,246,0.3)]'
+            : 'bg-[#0c0c0e] border-white/5 hover:border-white/10 hover:bg-white/[0.02]'
             }`}
     >
         {/* Glow effect on hover when inactive */}

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { gsap } from 'gsap';
-import logo from '/img/outsiders/Outsiders.svg';
+/* import logo from '/img/outsiders/Outsiders.svg'; */
+import { Link } from 'react-router-dom';
 
 const VIDEOS = [
   "/video/coffee-1.mp4",
@@ -11,7 +12,7 @@ const VIDEOS = [
 ];
 
 const menuItems = [
-  { label: "Index", sub: "01", video: VIDEOS[0] },
+  { label: "SafeAi Auditor", sub: "01", video: VIDEOS[0], link:"/messenger" },
   { label: "Work", sub: "02", video: VIDEOS[1] },
   { label: "Studio", sub: "03", video: VIDEOS[2] },
   { label: "Connect", sub: "04", video: VIDEOS[3] },
@@ -69,18 +70,15 @@ export default function MenuBar() {
   };
 
   return (
-    <div ref={containerRef} className="relative min-h-screen bg-gray-50 text-neutral-900 font-sans overflow-x-hidden">
+    <div ref={containerRef} className="relative h-full bg-gray-50 text-neutral-900 font-sans overflow-x-hidden">
 
       <header className="fixed top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-50 mix-blend-exclusion text-white">
         <div className="text-xl tracking-tighter flex items-center gap-3">
-          {/* <div className="w-3 h-3 bg-white rounded-full special-font"></div>
-          <h1 className='special-font font-vogue text-5xl'><b>OUTSIDERS</b></h1> */}
-          {/* <img src="./img/outsiders/Outsiders.svg" alt="logo" className="ml-10 w-36"/> */}
-          <img src={logo} alt="Logo" className="w-24 h-24 text-blue-500 hover:text-red-500 bg-white" />
+      {/*     <img src={logo} alt="Logo" className="w-24 h-24 text-blue-500 hover:text-red-500 bg-white" /> */}
         </div>
         <button
           onClick={() => setIsMenuOpen(v => !v)}
-          className="group flex items-center gap-4 text-sm uppercase tracking-widest"
+          className="group mr-[8%] -mt-[20px] flex items-center gap-4 text-sm uppercase tracking-widest"
         >
           <span className="hidden md:block group-hover:opacity-70 transition">
             {isMenuOpen ? 'Close' : 'Menu'}
@@ -113,12 +111,15 @@ export default function MenuBar() {
                     <span className="text-lg font-mono text-gray-500 group-hover:text-white transition">
                       {item.sub}
                     </span>
+                    <Link to={item.link ? item.link : "#"}>
                     <h2 className={`text-8xl md:text-9xl lg:text-[11rem] font-black uppercase leading-none transition-all duration-500 ${hoveredIndex !== null && hoveredIndex !== i
                       ? "opacity-20 blur-sm"
                       : "opacity-100 blur-0"
                       }`}>
                       {item.label}
                     </h2>
+                    </Link>
+                    
                   </div>
                 </div>
               ))}
@@ -133,8 +134,8 @@ export default function MenuBar() {
                 <a href="#" className="hover:text-white transition">Twitter</a>
               </div>
               <div className="text-gray-500">
-                Based in Montreal<br />
-                <span className="text-white">hello@furrow.studio</span>
+                Based in Madagascar<br />
+                <span className="text-white">hello@outsiders.studio</span>
               </div>
             </div>
           </div>

@@ -16,7 +16,7 @@ const Footer = () => {
         </p>
 
         <div className=''>
-          <h4>Support Us </h4>
+          <h4>Supportez Nous </h4>
           <p>Universite de Fianarantsoa</p>
           <p>ENI Fianarantsoa</p>
           <p>Outsiders@gmail.com</p>
